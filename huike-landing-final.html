@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>回客 AI - Huike Relationship OS</title>
+    <style>
+        /* --------------------------------------------------
+           1. 全局设计系统 (基于 Proton x Linear 极简克制美学)
+           -------------------------------------------------- */
+        :root {
+            --color-primary: #6D4AFF;    /* 回客主色：深紫 */
+            --color-secondary: #FF6EC7;  /* 回客辅色：极简桃红 */
+            --color-bg: #FFFFFF;         /* 纯白底色 */
+            --color-text-main: #111827;   /* 极深灰（几乎接近黑，用于标题） */
+            --color-text-muted: #4B5563;  /* 柔和灰（用于正文） */
+            --color-border: #E5E7EB;      /* 细腻边框色 */
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--color-bg);
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--color-text-main);
+            background-color: var(--color-bg);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* 极简按钮 */
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--color-primary);
+            color: #FFFFFF;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 100ms ease, background-color 200ms ease;
+            box-shadow: 0 4px 12px rgba(109, 74, 255, 0.12);
+        }
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+        .btn-secondary {
+            display: inline-block;
+            color: var(--color-text-muted);
+            padding: 14px 24px;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            margin-left: 8px;
+            transition: color 200ms ease;
+        }
+        .btn-secondary:hover {
+            color: var(--color-text-main);
+        }
+
+        /* --------------------------------------------------
+           2. 第一屏：Hero Section (高级品牌叙事，大留白)
+           -------------------------------------------------- */
+        .section-hero {
+            height: 100vh;
+            min-height: 720px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: 64px;
+            width: 100%;
+        }
+        .hero-left {
+            padding-bottom: 40px;
+        }
+        
+        .brand-block {
+            margin-bottom: 56px;
+            display: inline-block;
+        }
+        .logo-main {
+            width: 108px;
+            height: 52px;
+            display: block;
+        }
+        
+        .hero-title {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            color: var(--color-text-main);
+            margin-bottom: 24px;
+        }
+        .hero-subtitle {
+            font-size: 16px;
+            color: var(--color-text-muted);
+            margin-bottom: 44px;
+            line-height: 1.7;
+        }
+        
+        /* Linear 风格卡片堆叠 Mockup */
+        .hero-right {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .linear-card {
+            background: #FFFFFF;
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.015);
+            transition: transform 300ms ease;
+        }
+        .linear-card:hover {
+            transform: translateY(-2px);
+            background-color: #F9F8FF;
+        }
+        .ai-badge-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-primary);
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        .logo-mini {
+            width: 24px;
+            height: 12px;
+        }
+        .ai-corner-text {
+            font-size: 11px;
+            color: #9CA3AF;
+            font-weight: 400;
+            margin-left: auto;
+        }
+        
+        .card-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .vip-star { color: #FFB800; font-size: 14px; }
+        .customer-name { font-weight: 600; font-size: 15px; }
+        
+        /* 标签系统定义 */
+        .tag-group { display: flex; gap: 6px; }
+        .tag { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+        .tag-converted { color: #10B981; background: #D4F4E8; }
+        .tag-active { color: #10B981; background: #D4F4E8; }
+        .tag-warming { color: #FF9800; background: #FFE4CC; }
+        .tag-silent { color: #9E9E9E; background: #F0F0F0; }
+        
+        .card-alert { font-size: 13px; font-weight: 500; }
+
+        /* --------------------------------------------------
+           3. 第二屏：我们观察到 (行业深度共鸣屏)
+           -------------------------------------------------- */
+        .section-observe {
+            padding: 140px 0 100px 0;
+            background-color: #FFFFFF;
+        }
+        .observe-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #9CA3AF;
+            letter-spacing: 4px;
+            margin-bottom: 48px;
+            text-transform: uppercase;
+        }
+        .observe-content {
+            font-size: 26px;
+            font-weight: 400;
+            color: var(--color-text-main);
+            line-height: 2.1;
+            max-width: 840px;
+        }
+
+        /* --------------------------------------------------
+           4. 新增核心屏：如果客户越来越多 (灵魂痛点层)
+           -------------------------------------------------- */
+        .section-scale-pain {
+            padding: 120px 0;
+            background-color: #FFFFFF;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .pain-title {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 56px;
+            color: var(--color-text-main);
+            line-height: 1.3;
+        }
+        .pain-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 32px;
+        }
+        .pain-node {
+            border-top: 2px solid var(--color-border);
+            padding-top: 24px;
+        }
+        .pain-node .node-num {
+            font-size: 14px;
+            font-weight: 700;
+            color: #9CA3AF;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .pain-node .node-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-text-main);
+        }
+        .pain-node.node-highlight {
+            border-top-color: var(--color-primary);
+        }
+        .pain-node.node-highlight .node-num {
+            color: var(--color-primary);
+        }
+
+        /* --------------------------------------------------
+           5. 第三屏：未来感断言 (战略层语言)
+           -------------------------------------------------- */
+        .section-future {
+            padding: 160px 0;
+            background-color: #FAFAFA;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .future-title {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 24px;
+            color: var(--color-text-main);
+        }
+        .future-content {
+            font-size: 18px;
+            color: var(--color-text-muted);
+            line-height: 1.8;
+            max-width: 720px;
+        }
+
+        /* --------------------------------------------------
+           6. 第四屏：理念 (Philosophy Core)
+           -------------------------------------------------- */
+        .section-philosophy {
+            padding: 160px 0;
+            background-color: #FFFFFF;
+            text-align: center;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .philosophy-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #9CA3AF;
+            letter-spacing: 4px;
+            margin-bottom: 64px;
+        }
+        .philosophy-text {
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--color-text-main);
+            line-height: 2.2;
+            max-width: 800px;
+            margin: 0 auto 64px auto;
+        }
+        .philosophy-subtext {
+            font-size: 15px;
+            color: var(--color-text-muted);
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        /* --------------------------------------------------
+           7. 第五屏：为什么需要回客 (左右强对比)
+           -------------------------------------------------- */
+        .section-contrast {
+            padding: 140px 0;
+            background-color: #FAFAFA;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .contrast-grid {
+            display: grid;
+            grid-template-columns: 1fr 40px 1fr;
+            align-items: center;
+            gap: 32px;
+        }
+        .contrast-box {
+            background: #FFFFFF;
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 48px;
+            min-height: 320px;
+        }
+        .contrast-box.active-box {
+            border-color: var(--color-primary);
+            box-shadow: 0 10px 30px rgba(109,74,255,0.02);
+        }
+        .contrast-header {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+        .contrast-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            font-size: 15px;
+            color: var(--color-text-muted);
+        }
+        .contrast-arrow {
+            text-align: center;
+            font-size: 24px;
+            color: var(--color-primary);
+            font-weight: 300;
+        }
+
+        /* --------------------------------------------------
+           8. 第六屏：产品能力 (极简四卡片 + 微型 Mockup)
+           -------------------------------------------------- */
+        .section-capabilities {
+            padding: 140px 0;
+            background-color: #FFFFFF;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .section-header-center {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        .section-header-center h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .capability-card {
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 40px;
+            background: #FFFFFF;
+        }
+        .cap-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .cap-desc {
+            font-size: 14px;
+            color: var(--color-text-muted);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        .mini-mockup {
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 12px;
+        }
+
+        /* --------------------------------------------------
+           9. 第七屏：为什么做回客 (价值观纯粹区)
+           -------------------------------------------------- */
+        .section-origin {
+            padding: 160px 0;
+            background-color: #0B0F17; /* Proton 深黑底座 */
+            color: #FFFFFF;
+        }
+        .origin-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 84px;
+        }
+        .origin-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #6B7280;
+            letter-spacing: 4px;
+            margin-bottom: 48px;
+            text-transform: uppercase;
+        }
+        .origin-content {
+            font-size: 16px;
+            color: #9CA3AF;
+            line-height: 2.4;
+        }
+        .origin-content strong {
+            color: #FFFFFF;
+        }
+        .team-manifesto {
+            border-left: 1px solid #222530;
+            padding-left: 48px;
+        }
+        .team-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #6B7280;
+            letter-spacing: 4px;
+            margin-bottom: 48px;
+            text-transform: uppercase;
+        }
+        .team-text {
+            font-size: 15px;
+            color: #9CA3AF;
+            line-height: 2.2;
+        }
+
+        /* --------------------------------------------------
+           10. 第八屏：体验官共创计划 (商业环境设计)
+           -------------------------------------------------- */
+        .section-form {
+            padding: 140px 0;
+            background-color: #FFFFFF;
+            display: flex;
+            justify-content: center;
+        }
+        .form-card {
+            width: 100%;
+            max-width: 480px;
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 48px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.01);
+        }
+        .form-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .form-subtitle {
+            font-size: 14px;
+            color: var(--color-text-muted);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .progress-box {
+            background: #F3F4F6;
+            border-radius: 100px;
+            height: 6px;
+            width: 100%;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            background: var(--color-primary);
+            height: 100%;
+            width: 80%; /* 模拟持续紧张感 */
+        }
+        .progress-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 200ms ease;
+        }
+        .form-group input:focus {
+            border-color: var(--color-primary);
+        }
+        .form-privacy {
+            font-size: 12px;
+            color: #9CA3AF;
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .success-state {
+            display: none;
+            text-align: center;
+        }
+        .success-state h3 { font-size: 22px; color: var(--color-primary); margin-bottom: 12px; }
+        .success-desc { font-size: 14px; color: var(--color-text-muted); margin-bottom: 24px; }
+        .qr-placeholder {
+            width: 160px;
+            height: 160px;
+            background: #F3F4F6;
+            border: 1px solid var(--color-border);
+            margin: 0 auto 16px auto;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #4B5563;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        /* --------------------------------------------------
+           11. 底部 Corporate Block
+           -------------------------------------------------- */
+        .site-footer {
+            padding: 48px 0;
+            border-top: 1px solid var(--color-border);
+            text-align: center;
+            font-size: 13px;
+            color: #9CA3AF;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="section-hero">
+        <div class="container" style="width: 100%;">
+            <div class="hero-grid">
+                <div class="hero-left">
+                    
+                    <div class="brand-block">
+                        <span style="font-size: 20px; font-weight: 800; color: var(--color-text-main); letter-spacing: -0.5px;">回客</span>
+                    </div>
+                    
+                    <h1 class="hero-title">帮老板记住每一个客户</h1>
+                    <p class="hero-subtitle">客户越来越多的时候，<br>记忆终将失效。<br><br>关系不应该被遗忘。</p>
+                    <div>
+                        <a href="#apply" class="btn-primary">申请首批体验官</a>
+                        <a href="#observe" class="btn-secondary">了解回客</a>
+                    </div>
+                </div>
+                
+                <div class="hero-right">
+                    <div class="linear-card" style="border-left: 3px solid var(--color-primary);">
+                        <div class="ai-badge-header">
+                            <span style="font-size: 18px;">⚠️</span>
+                            <span>今日风险提醒</span>
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                            <p style="font-size: 14px; color: var(--color-text-muted); margin-bottom: 8px;"><strong>王姐</strong></p>
+                            <p style="font-size: 13px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 8px;">
+                                距离上次到店：<strong style="color: var(--color-text-main);">72 天</strong><br>
+                                账户余额：<strong style="color: var(--color-primary);">¥3,280</strong><br>
+                                历史消费：<strong style="color: var(--color-text-main);">¥15,800</strong>
+                            </p>
+                            <div style="background: #FFF3CD; border-left: 3px solid #FF9800; padding: 8px 12px; border-radius: 4px; margin-top: 8px;">
+                                <p style="font-size: 12px; color: #856404; font-weight: 500;">建议：今天立刻联系</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="linear-card" style="border-left: 3px solid #FF9800;">
+                        <div style="margin-bottom: 12px;">
+                            <p style="font-size: 13px; font-weight: 600; color: var(--color-text-main); margin-bottom: 8px;">⚠️ 沉默客户</p>
+                            <p style="font-size: 15px; font-weight: 600; color: var(--color-text-main); margin-bottom: 8px;">李女士</p>
+                            <div style="font-size: 13px; color: var(--color-text-muted); line-height: 1.8;">
+                                距离上次到店：<strong style="color: #FF9800;">183 天</strong><br>
+                                预计流失风险：<strong style="color: #FF9800;">🔴 高</strong><br>
+                                <span style="font-size: 12px; margin-top: 8px; display: block; color: #666;">需要主动联系</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="linear-card">
+                        <div style="margin-bottom: 12px;">
+                            <p style="font-size: 13px; font-weight: 600; color: var(--color-text-main); margin-bottom: 8px;">💰 储值预警</p>
+                            <p style="font-size: 15px; font-weight: 600; color: var(--color-text-main); margin-bottom: 8px;">陈女士</p>
+                            <div style="font-size: 13px; color: var(--color-text-muted); line-height: 1.8;">
+                                账户余额：<strong>¥580</strong><br>
+                                已购疗程：<strong>12 次</strong><br>
+                                <span style="font-size: 12px; margin-top: 8px; display: block; color: #666;">余额即将耗尽，可能流失</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="observe" class="section-observe">
+        <div class="container">
+            <div class="observe-title">我们观察到</div>
+            <div class="observe-content">
+                很多老板每天都在努力服务客户，但客户越来越多，关系越来越难经营。<br><br>
+                很多流失，并不是因为服务不好，<br>
+                <strong>而是因为被遗忘。</strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-scale-pain">
+        <div class="container">
+            <h2 class="pain-title">10 个客户<br>100 个客户<br>1000 个客户</h2>
+            <div class="pain-grid">
+                <div class="pain-node">
+                    <div class="node-num">10</div>
+                    <div class="node-text">靠记忆</div>
+                </div>
+                <div class="pain-node">
+                    <div class="node-num">100</div>
+                    <div class="node-text">靠微信</div>
+                </div>
+                <div class="pain-node node-highlight">
+                    <div class="node-num">1000</div>
+                    <div class="node-text" style="color: var(--color-primary);">靠系统</div>
+                </div>
+                <div class="pain-node">
+                    <div class="node-num">10000</div>
+                    <div class="node-text" style="color: var(--color-primary); font-weight: 600;">靠方法论</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-future">
+        <div class="container">
+            <h2 class="future-title">你可能每个月都在流失客户</h2>
+            <p class="future-content">
+                只是你不知道是谁。<br><br>
+                客户来了，消费了，离开了。<br>
+                你以为她还会回来，但她已经 180 天没有出现。
+            </p>
+        </div>
+    </section>
+
+    <section class="section-philosophy">
+        <div class="container">
+            <div class="philosophy-title">我们相信</div>
+            <div class="philosophy-text">
+                客户流失，很多时候不是因为价格，而是因为被遗忘。<br><br>
+                客户回来，很多时候不是因为优惠券，而是因为被重视。
+            </div>
+            <div class="philosophy-subtext">回客不是营销工具。而是 Huike Relationship OS (关系操作系统)。</div>
+        </div>
+    </section>
+
+    <section class="section-contrast">
+        <div class="container">
+            <div class="contrast-grid">
+                <div class="contrast-box">
+                    <div class="contrast-header" style="color: #9CA3AF;">今天</div>
+                    <ul class="contrast-list">
+                        <li>📱 微信聊天记录不断被刷底，全凭记忆翻找</li>
+                        <li>📊 Excel 表格密密麻麻，沉睡在电脑角落</li>
+                        <li>🧠 老板每天都在回忆该联系谁，精力严重被消耗</li>
+                        <li>❌ 储值客户无声无息，悄悄流失无从知晓</li>
+                    </ul>
+                </div>
+                <div class="contrast-arrow">→</div>
+                <div class="contrast-box active-box">
+                    <div class="contrast-header" style="color: var(--color-primary);">回客</div>
+                    <ul class="contrast-list" style="color: var(--color-text-main);">
+                        <li><strong>📁 客户档案</strong> · 所有信息智能聚合，不再散落</li>
+                        <li><strong>🎯 客户状态</strong> · 谁活跃、谁沉默一目了然，智能分类</li>
+                        <li><strong>🔔 重要提醒</strong> · 生日、沉默、项目耗尽精准死线拦截</li>
+                        <li><strong>🤖 今日关注</strong> · 每天清晨奉上今天最值得亲自关心的名单 <span style="font-size:11px; color:#9CA3AF; font-weight:400;">(AI生成)</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-capabilities">
+        <div class="container">
+            <div class="section-header-center">
+                <h2>核心软件能力</h2>
+            </div>
+            <div class="capabilities-grid">
+                <div class="capability-card">
+                    <div class="cap-title">客户档案</div>
+                    <div class="cap-desc">所有客户集中管理，全程贯通时间线记录，不再散落在微信碎片中。</div>
+                    <div class="mini-mockup" style="color: #6B7280;">
+                        ⏱️ 14:00 首次到店咨询 • 🟢 已成交 • 📝 备注：对痛感敏感
+                    </div>
+                </div>
+                <div class="capability-card">
+                    <div class="cap-title">客户状态</div>
+                    <div class="cap-desc">系统基于底层经营逻辑，自动流转识别活跃、有段时间没来与很久没来了。</div>
+                    <div class="mini-mockup">
+                        <span class="tag tag-converted">已成交</span> ✕ <span class="tag tag-warming">有段时间没来</span> <span style="float:right; color:#9CA3AF;">系统今日自动标定</span>
+                    </div>
+                </div>
+                <div class="capability-card">
+                    <div class="cap-title">重要提醒</div>
+                    <div class="cap-desc">针对生日、沉默临界、疗程即将超期熔断的客户自动建立安全红线。</div>
+                    <div class="mini-mockup" style="color: var(--color-secondary); font-weight: 600;">
+                        ⚠️ 预警：该客户已满 180 天未到访，剩余 3 次疗程已进入强制熔断状态
+                    </div>
+                </div>
+                <div class="capability-card">
+                    <div class="cap-title">今日最值得联系</div>
+                    <div class="cap-desc">告别复杂的管理图表。每日清晨明确奉上今天最值得你发微信亲自关心的 5 个核心客户。<span style="font-size:11px; color:#9CA3AF;">(AI生成)</span></div>
+                    <div class="mini-mockup" style="border-left: 2px solid var(--color-primary);">
+                        💡 <strong>今日建议</strong>：优先给「王姐」发送生日关怀，她已有 45 天未到店。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-origin">
+        <div class="container">
+            <div class="origin-layout">
+                <div>
+                    <div class="origin-title">为什么做回客</div>
+                    <div class="origin-content">
+                        很多管理系统都在教老板：怎么群发、怎么促销、怎么打折。<br><br>
+                        但我们发现：客户流失很多时候不是因为价格，而是因为被遗忘。<br><br>
+                        <strong>所以回客不做营销轰炸，只做一件事：帮老板记住每一个客户。</strong>
+                    </div>
+                </div>
+                <div class="team-manifesto">
+                    <div class="team-title">回客团队</div>
+                    <div class="team-text">
+                        长期关注服务行业客户关系经营。<br><br>
+                        <strong>我们坚信：长期经营客户关系，比短期营销更有价值。</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="apply" class="section-form">
+        <div class="container">
+            <div class="form-card">
+                <div id="form-fields">
+                    <div class="form-title">成为回客首批体验官</div>
+                    <div class="form-subtitle">成为回客创始体验官</div>
+                    
+                    <div class="progress-box"><div class="progress-bar"></div></div>
+                    <div class="progress-text">首批仅开放 100 家门店 / 名额持续审核中</div>
+                    
+                    <form onsubmit="handleFormSubmit(event)">
+                        <div class="form-group">
+                            <label>姓名</label>
+                            <input type="text" id="raw_name" required placeholder="如何称呼您">
+                        </div>
+                        <div class="form-group">
+                            <label>门店名称</label>
+                            <input type="text" id="raw_shop" required placeholder="您的美业门店名称">
+                        </div>
+                        <div class="form-group">
+                            <label>微信</label>
+                            <input type="text" id="raw_wechat" required placeholder="方便主理人联络的微信号">
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%; text-align: center; margin-top: 12px;">申请体验官资格</button>
+                    </form>
+                    <div class="form-privacy">※ 您的信息将受到严格保护，仅用于共创名额审核。</div>
+                </div>
+
+                <div id="form-success" class="success-state">
+                    <h3>🎉 申请已提交</h3>
+                    <p class="success-desc">名额已进入首批共创审核名单。<br>主理人将在 24 小时内与您取得联系。</p>
+                    
+                    <div class="qr-placeholder">
+                        <div style="text-align: center;">
+                            <span style="font-size: 24px; display:block; margin-bottom:4px;">💬</span>
+                            <span>[ 专属微信二维码 ]</span><br>
+                            <span style="font-size:11px; color:#6B7280; font-weight:400;">长按或扫码添加主理人</span>
+                        </div>
+                    </div>
+                    <p style="font-size: 12px; color: #9CA3AF;">添加时请备注：体验官共创</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2026 上海神工天降智能科技有限公司. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            // 数据已规范化截取，随时可以接入真实的后端接口
+            const formData = {
+                name: document.getElementById('raw_name').value,
+                shop: document.getElementById('raw_shop').value,
+                wechat: document.getElementById('raw_wechat').value
+            };
+            
+            console.log('正在提交至回客体验官数据库:', formData);
+            
+            // 切换至成功状态（展示二维码）
+            document.getElementById('form-fields').style.display = 'none';
+            document.getElementById('form-success').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
