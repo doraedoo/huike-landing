@@ -350,6 +350,109 @@
         }
 
         /* --------------------------------------------------
+           7.5. 新模块：发现-理解-建议 (行动流)
+           -------------------------------------------------- */
+        .section-action-flow {
+            padding: 80px 0;
+            background: #FFFFFF;
+        }
+
+        .section-action-flow .section-header-center {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .section-action-flow h2 {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--color-text-main);
+            line-height: 1.4;
+            margin-bottom: 16px;
+        }
+
+        .section-action-flow .section-subtitle {
+            font-size: 15px;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .action-flow {
+            max-width: 500px;
+            margin: 0 auto 60px;
+        }
+
+        .flow-step {
+            padding: 24px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            margin-bottom: 0;
+            position: relative;
+            background: #FAFAFA;
+            text-align: center;
+        }
+
+        .flow-step:last-of-type {
+            border-color: var(--color-primary);
+            background: rgba(109, 74, 255, 0.04);
+        }
+
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-text-main);
+            margin-bottom: 8px;
+        }
+
+        .step-content {
+            font-size: 14px;
+            color: var(--color-text-main);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .step-reason {
+            display: block;
+            font-size: 13px;
+            color: var(--color-text-muted);
+            margin-top: 8px;
+            font-weight: 400;
+        }
+
+        .flow-arrow {
+            text-align: center;
+            padding: 12px 0;
+            font-size: 20px;
+            color: var(--color-text-muted);
+            font-weight: 300;
+        }
+
+        .action-flow-footer {
+            text-align: center;
+            font-size: 14px;
+            color: var(--color-text-muted);
+            line-height: 1.8;
+            padding: 24px;
+            border-top: 1px solid #E5E7EB;
+            margin-top: 40px;
+        }
+
+        /* --------------------------------------------------
            8. 第六屏：产品能力 (极简四卡片 + 微型 Mockup)
            -------------------------------------------------- */
         .section-capabilities {
@@ -702,6 +805,43 @@
                         <li><strong>💜 今日关注</strong><br>每天告诉你最值得联系的人</li>
                     </ul>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-action-flow">
+        <div class="container">
+            <div class="section-header-center">
+                <h2>不只是发现问题<br>更帮助你采取行动</h2>
+                <p class="section-subtitle">回客不仅告诉你谁需要关注，更告诉你为什么关注，以及如何开始行动。</p>
+            </div>
+            
+            <div class="action-flow">
+                <div class="flow-step">
+                    <div class="step-badge">1</div>
+                    <h3 class="step-title">发现</h3>
+                    <p class="step-content">王姐已经 72 天没有到店</p>
+                </div>
+                
+                <div class="flow-arrow">↓</div>
+                
+                <div class="flow-step">
+                    <div class="step-badge">2</div>
+                    <h3 class="step-title">理解</h3>
+                    <p class="step-content">过去一年消费 6800 元<br>属于高价值客户</p>
+                </div>
+                
+                <div class="flow-arrow">↓</div>
+                
+                <div class="flow-step">
+                    <div class="step-badge">3</div>
+                    <h3 class="step-title">建议</h3>
+                    <p class="step-content">建议今天发送关怀消息<br><span class="step-reason">原因：她过去对生日活动响应率最高</span></p>
+                </div>
+            </div>
+            
+            <div class="action-flow-footer">
+                传统 CRM 记录客户数据。<br>回客帮助老板经营客户关系。
             </div>
         </div>
     </section>
