@@ -2,9 +2,8 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>回客 - 让每一段关系都不被遗忘</title>
-    <meta name="theme-color" content="#6D4AFF">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -18,411 +17,278 @@
             --bg-light: #FAFAFA;
         }
         html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text-main); position: relative; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text-main); -webkit-font-smoothing: antialiased; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Noto Serif SC', serif; font-weight: 600; letter-spacing: -0.02em; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        
-        @media (min-width: 768px) {
-            .container { padding: 0 32px; }
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
 
         /* Navigation */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 72px;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
-            z-index: 100;
-        }
-        @media (min-width: 768px) {
-            nav { height: 80px; }
+            top: 0; left: 0; right: 0; height: 80px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5); z-index: 100;
         }
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
         .logo-area { display: flex; flex-direction: column; }
-        .logo-text { font-size: 20px; font-weight: 700; color: var(--text-main); line-height: 1; }
-        .logo-sub { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; font-family: 'Inter', sans-serif; font-weight: 500; }
-        @media (min-width: 768px) {
-            .logo-text { font-size: 22px; }
-            .logo-sub { font-size: 10px; }
-        }
+        .logo-text { font-size: 22px; font-weight: 700; color: var(--text-main); line-height: 1; }
+        .logo-sub { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; font-family: 'Inter', sans-serif; font-weight: 500; }
 
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            text-decoration: none;
-        }
-        @media (min-width: 768px) {
-            .btn { padding: 12px 28px; font-size: 14px; }
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 12px 28px; border-radius: 6px; font-size: 14px; font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; text-decoration: none;
         }
         .btn-primary { background: var(--text-main); color: var(--bg); border: 1px solid var(--text-main); }
         .btn-primary:hover { background: #1f2937; border-color: #1f2937; }
 
         /* Hero */
-        .hero { padding-top: 140px; padding-bottom: 80px; position: relative; }
-        @media (min-width: 992px) {
-            .hero { padding-top: 200px; padding-bottom: 140px; }
-        }
-        .hero-grid { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center; }
-        @media (min-width: 992px) {
-            .hero-grid { grid-template-columns: 1.1fr 0.9fr; gap: 80px; }
-        }
-        .hero-title { font-size: 38px; line-height: 1.3; color: var(--text-main); margin-bottom: 24px; font-weight: 700; }
-        .hero-desc { font-size: 16px; color: var(--text-muted); line-height: 1.8; margin-bottom: 36px; font-family: 'Inter', sans-serif; }
-        @media (min-width: 768px) {
-            .hero-title { font-size: 48px; }
-            .hero-desc { font-size: 18px; }
-        }
-        @media (min-width: 992px) {
-            .hero-title { font-size: 56px; margin-bottom: 32px; }
-            .hero-desc { margin-bottom: 48px; }
-        }
+        .hero { padding-top: 200px; padding-bottom: 140px; }
+        .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 80px; align-items: center; }
+        .hero-title { font-size: 56px; line-height: 1.3; color: var(--text-main); margin-bottom: 32px; font-weight: 700; }
+        .hero-desc { font-size: 18px; color: var(--text-muted); line-height: 1.8; margin-bottom: 48px; font-family: 'Inter', sans-serif; }
         
-        /* App Screenshot Style UI Mockups */
-        .ui-viewport {
-            background: #FFFFFF;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.01);
-            padding: 20px;
-            position: relative;
-        }
-        @media (min-width: 768px) {
-            .ui-viewport { padding: 28px; }
-        }
-        
-        .action-card {
-            background: #FFFFFF;
-            border: 1px solid #F3F4F6;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        @media (min-width: 768px) {
-            .action-card { padding: 20px; margin-bottom: 24px; }
-        }
+        /* App UI Mockups */
+        .ui-viewport { background: #FFFFFF; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.01); padding: 28px; position: relative; }
+        .action-card { background: #FFFFFF; border: 1px solid #F3F4F6; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
         .action-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .action-name { font-size: 15px; font-weight: 600; color: var(--text-main); }
+        .action-name { font-size: 16px; font-weight: 600; color: var(--text-main); }
         .action-status { font-size: 11px; color: #D97706; background: #FFFBEB; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
         .action-body { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
         .action-footer { display: flex; justify-content: flex-end; }
         .action-btn { background: var(--text-main); color: #FFF; font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 4px; border: none; cursor: pointer; }
-
-        .memo-note {
-            background: #FFFDF2;
-            border: 1px solid #F7F3D7;
-            border-radius: 8px;
-            padding: 16px;
-            font-size: 13px;
-            line-height: 1.6;
-            color: #78350F;
-        }
-        @media (min-width: 768px) {
-            .memo-note { padding: 18px; }
-        }
+        .memo-note { background: #FFFDF2; border: 1px solid #F7F3D7; border-radius: 8px; padding: 18px; font-size: 13px; line-height: 1.6; color: #78350F; }
         .memo-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #B45309; margin-bottom: 6px; }
 
         /* Statement Screen */
-        .statement-section { padding: 100px 0; background-color: var(--bg-light); text-align: center; }
-        @media (min-width: 768px) {
-            .statement-section { padding: 160px 0; }
-        }
-        .statement-text { font-size: 24px; line-height: 2; color: var(--text-main); font-weight: 500; white-space: pre-line; letter-spacing: 0.02em; }
-        @media (min-width: 768px) {
-            .statement-text { font-size: 32px; line-height: 2.2; }
-        }
+        .statement-section { padding: 160px 0; background-color: var(--bg-light); text-align: center; }
+        .statement-text { font-size: 32px; line-height: 2.2; color: var(--text-main); font-weight: 500; white-space: pre-line; letter-spacing: 0.02em; }
 
         /* Scale Section */
-        .scale-section { padding: 80px 0; border-bottom: 1px solid var(--border); }
-        @media (min-width: 768px) {
-            .scale-section { padding: 140px 0; }
-        }
-        .scale-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
-        @media (min-width: 768px) {
-            .scale-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-        .scale-card { text-align: center; padding: 10px; }
-        .scale-num { font-size: 12px; font-weight: 700; color: #9CA3AF; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.15em; font-family: 'Inter', sans-serif; }
-        @media (min-width: 768px) {
-            .scale-num { margin-bottom: 24px; font-size: 13px; }
-        }
-        .scale-title { font-size: 28px; color: var(--text-main); margin-bottom: 12px; font-weight: 600; }
-        @media (min-width: 768px) {
-            .scale-title { font-size: 36px; }
-        }
-        .scale-desc { font-size: 14px; color: var(--text-muted); font-family: 'Inter', sans-serif; }
+        .scale-section { padding: 140px 0; border-bottom: 1px solid var(--border); }
+        .scale-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .scale-card { text-align: center; padding: 20px; }
+        .scale-num { font-size: 13px; font-weight: 700; color: #9CA3AF; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.15em; }
+        .scale-title { font-size: 36px; color: var(--text-main); margin-bottom: 12px; font-weight: 600; }
+        .scale-desc { font-size: 14px; color: var(--text-muted); }
 
-        /* Sidebar Sticky Navigation Layout */
-        .journey-layout { display: flex; flex-direction: column; gap: 40px; position: relative; padding: 80px 0 40px 0; }
-        @media (min-width: 992px) {
-            .journey-layout { flex-direction: row; gap: 80px; padding: 140px 0 60px 0; }
-        }
-        
-        .sidebar-nav { width: 100%; position: relative; top: 0; display: none; flex-shrink: 0; }
-        @media (min-width: 992px) {
-            .sidebar-nav { display: block; width: 180px; position: sticky; top: 180px; height: fit-content; }
-        }
+        /* Sidebar Sticky Navigation */
+        .journey-layout { display: flex; gap: 80px; position: relative; padding: 140px 0 0 0; }
+        .sidebar-nav { width: 180px; position: sticky; top: 180px; height: fit-content; flex-shrink: 0; z-index: 10; }
         .timeline-indicator { display: flex; flex-direction: column; gap: 0; position: relative; }
-        .timeline-indicator::before {
-            content: '';
-            position: absolute;
-            left: 7px;
-            top: 10px;
-            bottom: 10px;
-            width: 1px;
-            background-color: var(--border);
-            z-index: 1;
-        }
-        .timeline-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 14px 0;
-            cursor: pointer;
-            position: relative;
-            z-index: 2;
-        }
-        .timeline-dot {
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background-color: var(--bg);
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-        .timeline-label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #9CA3AF;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-        }
-        .timeline-item.active .timeline-dot {
-            background-color: var(--primary);
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(109, 74, 255, 0.12);
-        }
+        .timeline-indicator::before { content: ''; position: absolute; left: 7px; top: 10px; bottom: 10px; width: 1px; background-color: var(--border); z-index: 1; }
+        .timeline-item { display: flex; align-items: center; gap: 16px; padding: 14px 0; cursor: pointer; position: relative; z-index: 2; }
+        .timeline-dot { width: 15px; height: 15px; border-radius: 50%; background-color: var(--bg); border: 1px solid var(--border); transition: all 0.3s ease; }
+        .timeline-label { font-size: 13px; font-weight: 500; color: #9CA3AF; transition: all 0.3s ease; }
+        
+        .timeline-item.active .timeline-dot { background-color: var(--primary); border-color: var(--primary); box-shadow: 0 0 0 4px rgba(109, 74, 255, 0.12); }
         .timeline-item.active .timeline-label { color: var(--primary); font-weight: 600; }
         .timeline-item.passed .timeline-dot { background-color: var(--text-main); border-color: var(--text-main); }
         .timeline-item.passed .timeline-label { color: var(--text-main); }
 
         .journey-flow { flex-grow: 1; display: flex; flex-direction: column; }
-        .journey-section {
-            min-height: auto;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 40px;
-            align-items: center;
-            padding: 60px 0;
-            border-bottom: 1px solid rgba(229, 231, 235, 0.4);
-        }
-        @media (min-width: 768px) {
-            .journey-section { grid-template-columns: 1fr 1fr; gap: 40px; padding: 80px 0; }
-        }
-        @media (min-width: 992px) {
-            .journey-section { min-height: 70vh; gap: 80px; }
-        }
-        .journey-section:last-of-type { border-bottom: none; }
-        
-        .section-meta { font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 16px; font-family: 'Inter', sans-serif; }
-        .section-title { font-size: 28px; line-height: 1.4; color: var(--text-main); margin-bottom: 16px; font-weight: 600; }
-        @media (min-width: 768px) {
-            .section-title { font-size: 32px; }
-        }
-        @media (min-width: 992px) {
-            .section-title { font-size: 36px; }
-        }
-        .section-desc { font-size: 15px; color: var(--text-muted); line-height: 1.8; font-family: 'Inter', sans-serif; white-space: pre-line; }
+        .journey-header { text-align: center; margin-bottom: 80px; }
+        .journey-statement { font-size: 36px; line-height: 1.4; color: var(--text-main); font-weight: 600; }
 
-        /* Original App UI Layout Simulations inside Sections */
-        .app-box { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.01); }
-        @media (min-width: 768px) {
-            .app-box { padding: 24px; }
-        }
+        .journey-section { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; padding: 100px 0; border-bottom: 1px solid rgba(229, 231, 235, 0.4); }
+        .section-meta { font-size: 12px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+        .section-title { font-size: 32px; color: var(--text-main); margin-bottom: 18px; font-weight: 600; }
+        .section-desc { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+
+        .app-box { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 24px; }
         .app-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #F3F4F6; font-size: 13px; }
         .app-row:last-child { border-bottom: none; }
         .app-tag { font-size: 11px; font-weight: 500; padding: 2px 6px; border-radius: 4px; }
-        
-        /* SVG Asset Container Responsive */
+
+        /* Chapter 05 关系资产网容器 */
         .network-svg-container {
-            position: relative; width: 100%; height: 210px; display: flex; align-items: center; justify-content: center; background: #FFFFFF; border-radius: 6px; border: 1px solid rgba(229, 231, 235, 0.6); overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 210px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #FFFFFF;
+            border-radius: 6px;
+            border: 1px solid rgba(229, 231, 235, 0.6);
         }
-        
-        /* CTA Section */
-        .cta-section { padding: 80px 0; background-color: var(--bg-light); border-top: 1px solid var(--border); text-align: center; }
-        @media (min-width: 768px) {
-            .cta-section { padding: 140px 0; }
+
+        /* ----------------------------------------------------
+           ✨ 100% 全宽收束大通栏
+        ---------------------------------------------------- */
+        .terminal-block {
+            width: 100%;
+            border-top: 1px solid rgba(229, 231, 235, 0.6);
+            background-color: var(--bg);
+            padding-bottom: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
-        .cta-container { max-width: 600px; margin: 0 auto; background: #FFFFFF; border: 1px solid var(--border); border-radius: 12px; padding: 40px 24px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02); }
-        @media (min-width: 768px) {
-            .cta-container { padding: 60px 40px; }
+
+        .terminal-line {
+            width: 1px;
+            height: 160px;
+            background: linear-gradient(to bottom, rgba(229,231,235,0.8) 0%, var(--primary) 100%);
         }
-        .cta-button { display: inline-flex; align-items: center; justify-content: center; padding: 14px 36px; background: var(--text-main); color: #FFFFFF; border: none; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; text-decoration: none; transition: background 0.2s; }
-        @media (min-width: 768px) {
-            .cta-button { padding: 16px 40px; font-size: 15px; }
+
+        .terminal-dot-center {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 24px rgba(109, 74, 255, 0.35);
+            margin-top: -2px;
+            margin-bottom: 48px;
         }
-        .cta-button:hover { background: #1f2937; }
+
+        .terminal-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 64px;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.1;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .terminal-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            margin-bottom: 36px;
+            padding-left: 0.25em;
+        }
+
+        .terminal-slogan {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            margin-bottom: 64px;
+        }
+
+        .terminal-card-box {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 56px 80px;
+            width: 100%;
+            max-width: 540px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.015);
+        }
+
+        .card-main-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 14px;
+        }
+
+        .card-sub-desc {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 36px;
+        }
+
+        .card-btn {
+            width: 100%;
+            max-width: 320px;
+            padding: 16px;
+            background: var(--text-main);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.2s;
+        }
+        .card-btn:hover { background: #1f2937; }
 
         /* Footer */
-        footer { padding: 40px 0; border-top: 1px solid var(--border); }
-        @media (min-width: 768px) {
+        footer { padding: 80px 0; border-top: 1px solid var(--border); background: #FFFFFF; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+        .footer-left { display: flex; flex-direction: column; align-items: flex-start; }
+        .footer-right { text-align: right; font-size: 13px; color: var(--text-muted); display: flex; flex-direction: column; justify-content: flex-end; }
+
+
+        /* ----------------------------------------------------
+           📱 移动端响应式核心适配 (Media Queries)
+        ---------------------------------------------------- */
+        @media (max-width: 768px) {
+            .container { padding: 0 20px; }
+            
+            /* 导航栏微调 */
+            nav { height: 70px; }
+            .logo-text { font-size: 18px; }
+            .logo-sub { font-size: 9px; }
+            .btn { padding: 10px 20px; font-size: 13px; }
+
+            /* Hero 首屏变为单栏上下结构 */
+            .hero { padding-top: 130px; padding-bottom: 70px; }
+            .hero-grid { grid-template-columns: 1fr; gap: 48px; text-align: center; }
+            .hero-title { font-size: 38px; margin-bottom: 20px; }
+            .hero-desc { font-size: 16px; margin-bottom: 36px; }
+            .ui-viewport { padding: 20px; }
+
+            /* 文本宣告屏 */
+            .statement-section { padding: 100px 0; }
+            .statement-text { font-size: 24px; line-height: 2; }
+
+            /* 数据对比模块变为垂直堆叠 */
+            .scale-section { padding: 80px 0; }
+            .scale-grid { grid-template-columns: 1fr; gap: 48px; }
+            .scale-num { margin-bottom: 12px; }
+            .scale-title { font-size: 30px; }
+
+            /* 核心框架部分：隐藏左侧导航，右侧占满 */
+            .journey-layout { flex-direction: column; gap: 0; padding-top: 80px; }
+            .sidebar-nav { display: none; } /* 手机端隐藏复杂的滚动锚点轴，保持极简阅读流 */
+            .journey-header { margin-bottom: 40px; }
+            .journey-statement { font-size: 28px; }
+
+            /* 每一个章节变成单栏堆叠 */
+            .journey-section { grid-template-columns: 1fr; gap: 32px; padding: 60px 0; }
+            .section-title { font-size: 24px; margin-bottom: 12px; }
+            .section-desc { font-size: 14px; }
+            .section-desc br { display: none; } /* 手机端取消人为换行 */
+
+            /* 资产网络图自适应缩放 */
+            .network-svg-container { height: 180px; }
+            .network-svg-container svg { viewBox: 0 0 350 180; }
+
+            /* 底部收束大通栏 */
+            .terminal-block { padding-bottom: 100px; }
+            .terminal-line { height: 100px; }
+            .terminal-title { font-size: 48px; }
+            .terminal-subtitle { font-size: 14px; margin-bottom: 24px; }
+            .terminal-slogan { font-size: 16px; margin-bottom: 48px; }
+            
+            /* 表单卡片防溢出 */
+            .terminal-card-box { padding: 40px 24px; border-radius: 12px; }
+            .card-main-title { font-size: 22px; }
+            .card-sub-desc { font-size: 13px; margin-bottom: 28px; }
+
+            /* 页脚 */
             footer { padding: 60px 0; }
-        }
-        .footer-container { display: flex; flex-direction: column; gap: 16px; justify-content: space-between; align-items: center; text-align: center; }
-        @media (min-width: 768px) {
-            .footer-container { flex-direction: row; gap: 0; text-align: left; }
-        }
-        .footer-brand { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.1em; }
-        .footer-copyright { font-size: 12px; color: var(--text-muted); font-family: 'Inter', sans-serif; }
-        
-        /* Ambient Background */
-        .ambient-glow {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(109, 74, 255, 0.03) 0%, rgba(255, 255, 255, 0) 70%);
-            top: -50px;
-            right: -50px;
-            z-index: 1;
-            pointer-events: none;
-        }
-        @media (min-width: 768px) {
-            .ambient-glow { width: 600px; height: 600px; top: -100px; right: -100px; }
-        }
-
-        .journey-header { text-align: center; margin-bottom: 40px; }
-        @media (min-width: 768px) {
-            .journey-header { margin-bottom: 80px; }
-        }
-        .journey-statement {
-            font-size: 26px;
-            line-height: 1.4;
-            color: var(--text-main);
-            font-weight: 600;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        @media (min-width: 768px) {
-            .journey-statement { font-size: 36px; }
-        }
-        .journey-statement.active { opacity: 1; transform: translateY(0); }
-
-        .closing-title { font-size: 36px; }
-        @media (min-width: 768px) { .closing-title { font-size: 46px; } }
-
-
-        /* ==========================================================================
-           以下为移动端专项体验调优核心覆盖区域
-           完美隔离、完全冷冻桌面版，专门打磨 iPhone 14 Pro / iPhone 15 与微信生态
-           ========================================================================== */
-        @media (max-width: 767px) {
-            /* 页面根容器防溢出保障 */
-            html, body {
-                max-width: 100vw;
-                overflow-x: hidden;
-            }
-
-            /* 1. Hero标题手机端缩小到32px */
-            .hero-title {
-                font-size: 32px !important;
-                line-height: 1.25 !important;
-            }
-
-            /* 4. CTA按钮手机端宽度100%（防盒模型溢出设置） */
-            .cta-button {
-                width: 100% !important;
-                box-sizing: border-box !important;
-                display: inline-flex !important;
-                justify-content: center !important;
-                align-items: center !important;
-            }
-
-            /* ==========================================================================
-               核心优化：推荐关系网络结构全面适配 260px，外围扩散 10%-15%，中心上移 5%
-               ========================================================================== */
-
-            /* 2. 推荐关系网络高度提升到260px */
-            .network-svg-container {
-                height: 260px !important;
-            }
-
-            /* 3. 推荐节点文字与节点内部整体统一提升到11px */
-            .network-svg-container span,
-            .network-svg-container div {
-                font-size: 11px !important;
-            }
-
-            /* 重新调节底衬 SVG 连线：等比例缩放 1.12 倍，并微调定位，配合扩散对齐 */
-            .network-svg-container svg {
-                top: -5px !important;
-                transform: scale(1.12) !important;
-                transform-origin: center 45% !important;
-            }
-
-            /* 中心节点（王雪梅）：原始 top: 50%，现设定为 45% !important（完美上移 5%） */
-            .network-svg-container > div[style*="top: 50%"] {
-                top: 45% !important;
-            }
-
-            /* 左上节点 (李女士)：原 top:20px, left:15px -> 向上外推，向左贴紧 */
-            .network-svg-container > div[style*="left: 15px"][style*="top: 20px"] {
-                top: 10px !important;
-                left: 8px !important;
-            }
-
-            /* 左下节点 (张丽华)：原 top:150px, left:20px -> 向下深化，扩展视窗下部 */
-            .network-svg-container > div[style*="left: 20px"] {
-                top: 198px !important;
-                left: 10px !important;
-            }
-
-            /* 中上节点 (陈雪曼)：原 top:12px, left:40% -> 贴近顶部边缘，维持轴线 */
-            .network-svg-container > div[style*="left: 40%"][style*="top: 12px"] {
-                top: 6px !important;
-                left: 38% !important;
-            }
-
-            /* 中下节点 (周小美)：原 top:172px, left:40% -> 沉底外展，拉开与主节点距离 */
-            .network-svg-container > div[style*="left: 40%"][style*="top: 172px"] {
-                top: 220px !important;
-                left: 38% !important;
-            }
-
-            /* 右上节点 (孙佳怡)：原 top:20px, right:15px -> 向上外推，向右侧紧贴 */
-            .network-svg-container > div[style*="right: 15px"][style*="top: 20px"] {
-                top: 10px !important;
-                right: 8px !important;
-            }
-
-            /* 右下节点 (赵雨婷)：原 top:150px, right:20px -> 向下深化，全面占满右底空间 */
-            .network-svg-container > div[style*="right: 20px"] {
-                top: 198px !important;
-                right: 10px !important;
-            }
-
-            /* 额外打磨：优化移动布局环境下的网格及结构间距，以解决任何潜在的切边可能 */
-            .hero-grid { gap: 32px !important; }
-            .ui-viewport { padding: 16px !important; }
-            .action-body { word-break: break-all !important; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 24px; }
+            .footer-left { align-items: center; }
+            .footer-right { text-align: center; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Navigation -->
     <nav>
         <div class="container nav-container">
             <div class="logo-area">
@@ -430,18 +296,18 @@
                 <span class="logo-sub">Relationship OS</span>
             </div>
             <div>
-                <a href="https://mcnmm7o8z4hq.feishu.cn/share/base/form/shrcn8dZjroLNPuxDJnOg8IjeIb" target="_blank" class="btn btn-primary" id="nav-action-btn">立即申请</a>
+                <a href="#apply-box" class="btn btn-primary">申请首批体验官</a>
             </div>
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <section class="hero">
-        <div class="ambient-glow"></div>
         <div class="container hero-grid">
             <div>
                 <h1 class="hero-title">让每一段关系，<br>都不被遗忘。</h1>
-                <p class="hero-desc">客户越来越多，<br>关系越来越难经营。<br><br>回客，<br>Relationship OS。</p>
-                <a href="https://mcnmm7o8z4hq.feishu.cn/share/base/form/shrcn8dZjroLNPuxDJnOg8IjeIb" target="_blank" class="btn btn-primary">申请首批体验官</a>
+                <p class="hero-desc">客户越来越多，关系越来越难经营。<br><br>回客，Relationship OS。</p>
+                <a href="#apply-box" class="btn btn-primary">申请首批体验官</a>
             </div>
             <div>
                 <div class="ui-viewport">
@@ -452,7 +318,7 @@
                         </div>
                         <div class="action-body">过去一年她曾到店 14 次，是时候发条换季关怀关心一下她了。</div>
                         <div class="action-footer">
-                            <button class="action-btn" onclick="window.open('https://mcnmm7o8z4hq.feishu.cn/share/base/form/shrcn8dZjroLNPuxDJnOg8IjeIb', '_blank');">查看建议</button>
+                            <button class="action-btn" onclick="document.getElementById('apply-box').scrollIntoView({behavior: 'smooth'});">发微信问候</button>
                         </div>
                     </div>
                     <div class="memo-note">
@@ -464,6 +330,7 @@
         </div>
     </section>
 
+    <!-- Assertion Statement Panel -->
     <section class="statement-section">
         <div class="container">
             <p class="statement-text">很多时候离开的
@@ -472,6 +339,7 @@
         </div>
     </section>
 
+    <!-- Scale Section -->
     <section class="scale-section">
         <div class="container scale-grid">
             <div class="scale-card">
@@ -492,138 +360,108 @@
         </div>
     </section>
 
+    <!-- Relationship Journey Framework -->
     <div class="container journey-layout">
+        <!-- Sidebar Tracker -->
         <div class="sidebar-nav">
             <div class="timeline-indicator">
-                <div class="timeline-item active">
-                    <div class="timeline-dot"></div>
-                    <span class="timeline-label">遇见</span>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="timeline-label">认识</span>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="timeline-label">信任</span>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="timeline-label">常来</span>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <span class="timeline-label">推荐</span>
-                </div>
+                <div class="timeline-item"><div class="timeline-dot"></div><span class="timeline-label">连接</span></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><span class="timeline-label">了解</span></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><span class="timeline-label">陪伴</span></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><span class="timeline-label">常来往</span></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><span class="timeline-label">增长</span></div>
             </div>
         </div>
 
+        <!-- Master Content Area -->
         <div class="journey-flow">
             <div class="journey-header">
                 <h2 class="journey-statement">每一段关系都有自己的旅程</h2>
             </div>
 
+            <!-- Chapter 01 -->
             <section id="section-0" class="journey-section">
                 <div>
-                    <div class="section-meta">Chapter 01 : 遇见</div>
+                    <div class="section-meta">Chapter 01 : 连接</div>
                     <h3 class="section-title">关系始于连接</h3>
-                    <p class="section-desc">每一次添加微信，<br>都是关系的开始。</p>
+                    <p class="section-desc">每一次建立连接，<br>都是关系的开始。</p>
                 </div>
                 <div>
                     <div class="app-box">
-                        <div class="app-row" style="font-weight: 600; border-bottom: 2px solid var(--border); padding-bottom: 16px;">
-                            <span>新连接</span>
-                        </div>
+                        <div class="app-row" style="font-weight: 600; border-bottom: 2px solid var(--border); padding-bottom: 16px;"><span>新连接</span></div>
                         <div class="app-row"><span>王晓丽</span><span class="app-tag" style="background:#EEF2F6; color:#4B5563;">📕 小红书</span></div>
                         <div class="app-row"><span>赵女士</span><span class="app-tag" style="background:#EBF5FF; color:#1E40AF;">👥 转介绍</span></div>
-                        <div class="app-row"><span>陈冰</span><span class="app-tag" style="background:#FFF1F2; color:#9F1239;">⚡ 线上购</span></div>
                     </div>
                 </div>
             </section>
 
+            <!-- Chapter 02 -->
             <section id="section-1" class="journey-section">
                 <div>
-                    <div class="section-meta">Chapter 02 : 认识</div>
+                    <div class="section-meta">Chapter 02 : 了解</div>
                     <h3 class="section-title">关系成长于了解</h3>
-                    <p class="section-desc">记住她是谁，<br>比记住她消费了什么更重要。</p>
+                    <p class="section-desc">记住她是谁，比记住她消费了什么更重要。</p>
                 </div>
                 <div>
                     <div class="app-box">
-                        <div class="app-row" style="font-weight: 600; border-bottom: 2px solid var(--border); padding-bottom: 16px;">
-                            <span>了解度档案</span>
-                        </div>
-                        <div class="app-row"><span style="color: var(--text-muted); margin-right: 8px; flex-shrink:0;">核心关注</span><span style="font-weight:500; text-align:right;">长线抗衰 ｜ 皮肤亮泽</span></div>
-                        <div class="app-row"><span style="color: var(--text-muted); margin-right: 8px; flex-shrink:0;">重要特质</span><span style="font-weight:500; text-align:right;">皮肤敏感 ｜ 喜欢极度安静</span></div>
-                        <div class="app-row"><span style="color: var(--text-muted); margin-right: 8px; flex-shrink:0;">生活备忘</span><span style="font-weight:500; text-align:right;">育有一子 ｜ 习惯去冰咖啡</span></div>
+                        <div class="app-row" style="font-weight: 600; border-bottom: 2px solid var(--border); padding-bottom: 16px;"><span>了解度档案</span></div>
+                        <div class="app-row"><span style="color: var(--text-muted);">核心关注</span><span style="font-weight:500;">长线抗衰 ｜ 皮肤亮泽</span></div>
+                        <div class="app-row"><span style="color: var(--text-muted);">重要特质</span><span style="font-weight:500;">皮肤敏感 ｜ 喜欢极度安静</span></div>
                     </div>
                 </div>
             </section>
 
+            <!-- Chapter 03 -->
             <section id="section-2" class="journey-section">
                 <div>
-                    <div class="section-meta">Chapter 03 : 信任</div>
+                    <div class="section-meta">Chapter 03 : 陪伴</div>
                     <h3 class="section-title">关系建立于陪伴</h3>
-                    <p class="section-desc">重要的不是回访。<br>而是记得。</p>
+                    <p class="section-desc">重要的不是回访。而是记得。</p>
                 </div>
                 <div>
                     <div class="app-box">
-                        <div class="app-row" style="font-weight: 600; border-bottom: 2px solid var(--border); padding-bottom: 16px;">
-                            <span>时间线</span>
-                            <span style="font-weight:normal; color:var(--text-muted);">王雪梅</span>
-                        </div>
+                        <div class="app-row" style="font-weight: 600; border-bottom: 2px solid var(--border); padding-bottom: 16px;"><span>时间线</span></div>
                         <div style="padding-top:16px; position:relative; padding-left:16px;">
                             <div style="position:absolute; left:4px; top:20px; bottom:20px; width:1px; background:var(--border);"></div>
                             <div style="margin-bottom:20px; position:relative;">
                                 <div style="position:absolute; left:-15px; top:5px; width:7px; height:7px; border-radius:50%; background:#111827;"></div>
-                                <div style="font-size:11px; color:var(--text-muted);">2025.01</div>
-                                <div style="font-size:13px; font-weight:500; margin-top:2px;">初次遇见 · 敏感防护初始档案</div>
-                            </div>
-                            <div style="margin-bottom:20px; position:relative;">
-                                <div style="position:absolute; left:-15px; top:5px; width:7px; height:7px; border-radius:50%; background:#111827;"></div>
-                                <div style="font-size:11px; color:var(--text-muted);">2025.03</div>
-                                <div style="font-size:13px; font-weight:500; margin-top:2px;">生日纪念 · 真诚问候</div>
+                                <div style="font-size:13px; font-weight:500;">初次遇见 · 建立初始档案</div>
                             </div>
                             <div style="position:relative;">
                                 <div style="position:absolute; left:-15px; top:5px; width:7px; height:7px; border-radius:50%; background:var(--primary);"></div>
-                                <div style="font-size:11px; color:var(--primary); font-weight:600;">今天</div>
-                                <div style="font-size:13px; font-weight:600; color:var(--primary); margin-top:2px;">触发换季管理提示</div>
+                                <div style="font-size:13px; font-weight:600; color:var(--primary);">触发换季管理提示</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- Chapter 04 -->
             <section id="section-3" class="journey-section">
                 <div>
-                    <div class="section-meta">Chapter 04 : 常来</div>
+                    <div class="section-meta">Chapter 04 : 常来往</div>
                     <h3 class="section-title">关系沉淀于常来常往</h3>
-                    <p class="section-desc">该联系的时候联系。<br>不该打扰的时候安静。</p>
+                    <p class="section-desc">该联系的时候联系。不该打扰的时候安静。</p>
                 </div>
                 <div>
-                    <div class="app-box" style="border-color: rgba(109, 74, 255, 0.15);">
-                        <div class="app-row" style="font-weight: 600; border-bottom: 2px solid var(--border); padding-bottom: 16px;">
-                            <span>今日待维系</span>
-                        </div>
-                        <div style="padding:16px 0 12px 0; border-bottom:1px solid #F3F4F6;">
-                            <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:600;"><span>林婉儿</span><span style="color:var(--primary); font-size:11px; font-weight:500;">生日还有 3 天</span></div>
-                            <div style="font-size:12px; color:var(--text-muted); margin-top:6px; line-height:1.5;">建议发送无销售压力的减压到店邀请。</div>
-                        </div>
-                        <div style="padding-top:16px;">
-                            <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:600;"><span>陈女士</span><span style="color:#D97706; font-size:11px; font-weight:500;">疗程即将结束</span></div>
-                            <div style="font-size:12px; color:var(--text-muted); margin-top:6px; line-height:1.5;">进入最后一周，安排二次深层回访。</div>
+                    <div class="app-box">
+                        <div class="app-row" style="font-weight: 600; border-bottom: 2px solid var(--border); padding-bottom: 16px;"><span>今日待维系</span></div>
+                        <div style="padding:16px 0 12px 0;">
+                            <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:600;"><span>林婉儿</span><span style="color:var(--primary); font-size:11px;">生日还有 3 天</span></div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="section-4" class="journey-section">
+            <!-- Chapter 05 -->
+            <section id="section-4" class="journey-section" style="border-bottom: none;">
                 <div>
-                    <div class="section-meta">Chapter 05 : 推荐</div>
-                    <h3 class="section-title">推荐，是信任的传递</h3>
-                    <p class="section-desc">最好的新客户，<br>来自老客户。</p>
+                    <div class="section-meta">Chapter 05 : 增长</div>
+                    <h3 class="section-title">关系开始增长</h3>
+                    <p class="section-desc">最好的新客户，来自老客户的信任传递。</p>
                 </div>
                 <div>
-                    <div class="app-box" style="background: #FAFAFB; border: 1px solid var(--border); overflow: hidden; min-height: 290px; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div class="app-box" style="background: #FAFAFB; border: 1px solid var(--border); min-height: 290px; display: flex; flex-direction: column; justify-content: space-between;">
                         <div style="display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid #EAECEF; padding-bottom: 12px; margin-bottom: 8px;">
                             <span style="font-size: 12px; font-weight: 600; color: var(--text-main); font-family: 'Inter', sans-serif;">关系资产网络</span>
                             <div style="font-size: 11px; color: var(--text-muted); font-family: 'Inter', sans-serif; display: flex; flex-wrap: wrap; gap: 8px; font-weight: 500;">
@@ -690,32 +528,37 @@
                     </div>
                 </div>
             </section>
-
-            <div class="journey-node" style="grid-column: 1 / -1; width: 100%; padding-bottom: 60px; margin-top: 40px; display: flex; flex-direction: column; align-items: center; text-align: center;">
-                <div style="width: 2px; height: 80px; background: linear-gradient(to bottom, var(--border) 0%, rgba(109,74,255,0.3) 100%);"></div>
-                <div style="width: 16px; height: 16px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 20px rgba(109,74,255,0.6); margin-bottom: 32px; z-index: 2;"></div>
-                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;">
-                    <h3 class="closing-title" style="font-family: 'Noto Serif SC', serif; font-weight: 700; color: var(--text-main); line-height: 1.2;">回客</h3>
-                    <p style="font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.15em;">Relationship OS</p>
-                    <p style="font-family: 'Noto Serif SC', serif; font-size: 16px; font-weight: 500; color: var(--text-main); letter-spacing: 0.08em; margin-top: 8px; padding: 0 16px;">让每一段关系都不被遗忘</p>
-                </div>
-            </div>
         </div>
     </div>
 
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-container">
-                <h2 class="cta-title">申请成为回客首批体验官</h2>
-                <a href="https://mcnmm7o8z4hq.feishu.cn/share/base/form/shrcn8dZjroLNPuxDJnOg8IjeIb" target="_blank" class="cta-button">立即申请</a>
-            </div>
+    <!-- 🛠️ 100% 物理全宽收束区块 -->
+    <section class="terminal-block">
+        <div class="terminal-line"></div>
+        <div class="terminal-dot-center"></div>
+        
+        <h2 class="terminal-title">回客</h2>
+        <p class="terminal-subtitle">Relationship OS</p>
+        <p class="terminal-slogan">让每一段关系都不被遗忘</p>
+        
+        <div id="apply-box" class="terminal-card-box">
+            <h3 class="card-main-title">申请成为回客首批体验官</h3>
+            <p class="card-sub-desc">加入回客内测，抢先体验更智能的关系经营方式</p>
+            <button class="card-btn" onclick="window.location.href='https://mcnmm7o8z4hq.feishu.cn/share/base/form/shrcn8dZjroLNPuxDJnOg8IjeIb'">立即申请</button>
         </div>
     </section>
 
+    <!-- Footer Area -->
     <footer>
-        <div class="container footer-container">
-            <div class="footer-brand">Relationship OS</div>
-            <div class="footer-copyright">© 2026 上海神工天降智能科技有限公司</div>
+        <div class="container footer-grid">
+            <div class="footer-left">
+                <div class="logo-area">
+                    <span class="logo-text" style="font-size: 20px;">回客</span>
+                    <span class="logo-sub">Relationship OS</span>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div>© 2026 上海神工天降智能科技有限公司. All Rights Reserved.</div>
+            </div>
         </div>
     </footer>
 
@@ -724,7 +567,8 @@
         const timelineItems = document.querySelectorAll('.timeline-item');
 
         const updateTimeline = () => {
-            if (window.getComputedStyle(document.querySelector('.sidebar-nav')).display === 'none') return;
+            // 如果处于移动端（侧边栏隐藏状态），则不执行滚动高亮计算，节省性能
+            if (window.innerWidth <= 768) return;
 
             let currentIndex = 0;
             sections.forEach((section, index) => {
@@ -748,31 +592,6 @@
                 sections[index].scrollIntoView({ behavior: 'smooth' });
             });
         });
-
-        const journeyStatement = document.querySelector('.journey-statement');
-        const journeyObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    journeyObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.2 });
-
-        if (journeyStatement) journeyObserver.observe(journeyStatement);
-
-        /* 5. 导航按钮手机端文案改为：“立即申请”的动态兼容处理 */
-        function adaptNavButtonText() {
-            const navBtn = document.getElementById('nav-action-btn');
-            if (window.innerWidth < 768) {
-                navBtn.textContent = '立即申请';
-            } else {
-                navBtn.textContent = '申请首批体验官';
-            }
-        }
-        window.addEventListener('resize', adaptNavButtonText);
-        window.addEventListener('DOMContentLoaded', adaptNavButtonText);
-        adaptNavButtonText();
     </script>
 </body>
 </html>
