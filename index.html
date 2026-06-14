@@ -42,15 +42,60 @@
         .btn-primary { background: var(--text-main); color: var(--bg); border: 1px solid var(--text-main); }
         .btn-primary:hover { background: #1f2937; border-color: #1f2937; }
 
-        /* Hero */
-        .hero { padding-top: 200px; padding-bottom: 140px; }
-        .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 80px; align-items: center; }
-        .hero-title { font-size: 56px; line-height: 1.3; color: var(--text-main); margin-bottom: 32px; font-weight: 700; }
-        .hero-desc { font-size: 18px; color: var(--text-muted); line-height: 1.8; margin-bottom: 48px; font-family: 'Inter', sans-serif; }
+        /* Hero Section —— 彻底解决视觉左倾、留白过大、失衡问题 */
+        .hero { 
+            padding-top: 80px; /* 扣除导航栏高度 */
+            padding-bottom: 0; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; /* 强行实现垂直绝对双居中 */
+            align-items: center;
+        }
         
-        /* App UI Mockups */
-        .ui-viewport { background: #FFFFFF; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.01); padding: 28px; position: relative; }
-        .action-card { background: #FFFFFF; border: 1px solid #F3F4F6; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
+        /* 关键修改：打破 1:1 分栏，左侧给予 1.15fr 空间向中线舒展，右侧 0.85fr 收紧，间距拉大至 64px 保证呼吸感 */
+        .hero-grid { 
+            display: grid; 
+            grid-template-columns: 1.15fr 0.85fr; 
+            gap: 64px; 
+            align-items: center; 
+            width: 100%; 
+        }
+
+        /* 给左侧文字内容区域精细添加右边距，让文本视觉边缘完美向中线靠拢，中和换行空白 */
+        .hero-grid > div:first-child {
+            padding-right: 24px;
+        }
+        
+        .hero-title { font-family: 'Noto Serif SC', serif; font-size: 46px; line-height: 1.4; color: #0C111D; margin-bottom: 24px; font-weight: 700; letter-spacing: 0.02em; }
+        .hero-value { font-family: 'Inter', 'Helvetica Neue', sans-serif; font-size: 24px; line-height: 1.5; color: #374151; font-weight: 500; margin-bottom: 28px; letter-spacing: -0.01em; }
+        
+        .hero-desc-group { margin-bottom: 40px; font-family: 'Noto Serif SC', serif; }
+        .hero-brand-highlight { font-size: 38px; font-weight: 700; color: #5334E9; display: block; margin-bottom: 8px; letter-spacing: 0.03em; }
+        .hero-desc-text { font-size: 26px; font-weight: 600; color: #5334E9; line-height: 1.4; letter-spacing: 0.01em; }
+        
+        /* 加宽按钮 Padding 增加左下角“视觉压舱石”，对冲右侧图形重量 */
+        .btn-hero-capture { background: #0F1322; color: #FFFFFF; padding: 14px 44px; border-radius: 8px; font-size: 15px; font-weight: 500; border: none; letter-spacing: 0.05em; cursor: pointer; transition: background 0.2s; }
+        .btn-hero-capture:hover { background: #1D243D; }
+
+        /* App UI Mockups —— 限制最大宽度，改用轻量级投影，防止右侧过重把视觉拉偏 */
+        .ui-viewport { 
+            background: #FFFFFF; 
+            border: 1px solid var(--border); 
+            border-radius: 16px; 
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.01); 
+            padding: 36px; 
+            position: relative;
+            width: 100%;
+            max-width: 440px; /* 控制右侧图形体量 */
+            margin-left: auto; /* 配合 max-width 让图形往右贴边，给中间留出完美黄金间距 */
+        }
+        .ui-viewport::before {
+            content: ''; position: absolute; -webkit-border-radius: 16px; border-radius: 16px; inset: -1px;
+            background: linear-gradient(135deg, rgba(109,74,255,0.03) 0%, rgba(255,110,199,0.02) 100%);
+            pointer-events: none; z-index: -1;
+        }
+        .action-card { background: #FFFFFF; border: 1px solid #F3F4F6; border-radius: 8px; padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.01); }
         .action-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .action-name { font-size: 16px; font-weight: 600; color: var(--text-main); }
         .action-status { font-size: 11px; color: #D97706; background: #FFFBEB; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
@@ -87,8 +132,12 @@
         .timeline-item.passed .timeline-label { color: var(--text-main); }
 
         .journey-flow { flex-grow: 1; display: flex; flex-direction: column; }
-        .journey-header { text-align: center; margin-bottom: 80px; }
-        .journey-statement { font-size: 36px; line-height: 1.4; color: var(--text-main); font-weight: 600; }
+        .journey-header { text-align: center; margin-bottom: 80px; min-height: 50px; }
+        .journey-statement { font-size: 36px; line-height: 1.4; color: var(--text-main); font-weight: 600; position: relative; display: inline-block; }
+        
+        .journey-statement::after { content: '|'; position: absolute; right: -12px; color: var(--primary); animation: blink 0.7s infinite; font-weight: 400; }
+        .journey-statement.typing-done::after { display: none; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         .journey-section { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; padding: 100px 0; border-bottom: 1px solid rgba(229, 231, 235, 0.4); }
         .section-meta { font-size: 12px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
@@ -100,7 +149,6 @@
         .app-row:last-child { border-bottom: none; }
         .app-tag { font-size: 11px; font-weight: 500; padding: 2px 6px; border-radius: 4px; }
 
-        /* Chapter 05 关系资产网容器 */
         .network-svg-container {
             position: relative;
             width: 100%;
@@ -113,9 +161,7 @@
             border: 1px solid rgba(229, 231, 235, 0.6);
         }
 
-        /* ----------------------------------------------------
-           ✨ 100% 全宽收束大通栏
-        ---------------------------------------------------- */
+        /* 100% 全宽收束大通栏 */
         .terminal-block {
             width: 100%;
             border-top: 1px solid rgba(229, 231, 235, 0.6);
@@ -153,17 +199,6 @@
             letter-spacing: -0.02em;
         }
 
-        .terminal-subtitle {
-            font-family: 'Inter', sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.25em;
-            margin-bottom: 36px;
-            padding-left: 0.25em;
-        }
-
         .terminal-slogan {
             font-family: 'Noto Serif SC', serif;
             font-size: 18px;
@@ -177,24 +212,39 @@
             background: #FFFFFF;
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 56px 80px;
+            padding: 64px 80px;
             width: 100%;
-            max-width: 540px;
+            max-width: 600px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.015);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .card-main-title {
             font-family: 'Noto Serif SC', serif;
-            font-size: 28px;
-            font-weight: 600;
+            font-size: 32px;
+            font-weight: 700;
             color: var(--text-main);
-            margin-bottom: 14px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .card-secondary-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 24px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 24px;
+            line-height: 1.4;
         }
 
         .card-sub-desc {
             font-family: 'Inter', sans-serif;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 400;
             color: var(--text-muted);
+            line-height: 1.6;
             margin-bottom: 36px;
         }
 
@@ -214,81 +264,101 @@
         }
         .card-btn:hover { background: #1f2937; }
 
-        /* Footer */
-        footer { padding: 80px 0; border-top: 1px solid var(--border); background: #FFFFFF; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
-        .footer-left { display: flex; flex-direction: column; align-items: flex-start; }
-        .footer-right { text-align: right; font-size: 13px; color: var(--text-muted); display: flex; flex-direction: column; justify-content: flex-end; }
+        /* Footer 区域 */
+        footer { 
+            padding: 140px 0 60px 0; 
+            border-top: 1px solid rgba(229, 231, 235, 0.6); 
+            background: #FFFFFF; 
+        }
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .footer-left-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .footer-brand {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.01em;
+        }
+        .footer-divider {
+            width: 1px;
+            height: 14px;
+            background-color: #D1D5DB;
+        }
+        .footer-slogan-single {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            color: #4B5563;
+            letter-spacing: 0.05em;
+            word-spacing: 0.1em;
+        }
+        .footer-right-copyright {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #9CA3AF;
+            letter-spacing: 0.02em;
+        }
 
-
-        /* ----------------------------------------------------
-           📱 移动端响应式核心适配 (Media Queries)
-        ---------------------------------------------------- */
+        /* 移动端响应式适配 */
         @media (max-width: 768px) {
             .container { padding: 0 20px; }
-            
-            /* 导航栏微调 */
             nav { height: 70px; }
             .logo-text { font-size: 18px; }
             .logo-sub { font-size: 9px; }
-            .btn { padding: 10px 20px; font-size: 13px; }
 
-            /* Hero 首屏变为单栏上下结构 */
-            .hero { padding-top: 130px; padding-bottom: 70px; }
-            .hero-grid { grid-template-columns: 1fr; gap: 48px; text-align: center; }
-            .hero-title { font-size: 38px; margin-bottom: 20px; }
-            .hero-desc { font-size: 16px; margin-bottom: 36px; }
-            .ui-viewport { padding: 20px; }
-
-            /* 文本宣告屏 */
+            .hero { padding-top: 100px; min-height: auto; }
+            .hero-grid { grid-template-columns: 1fr; gap: 32px; text-align: left; }
+            .hero-grid > div:first-child { padding-right: 0; }
+            .hero-title { font-size: 32px; margin-bottom: 16px; }
+            .hero-value { font-size: 20px; margin-bottom: 16px; }
+            .hero-brand-highlight { font-size: 30px; }
+            .hero-desc-text { font-size: 22px; }
+            
+            .ui-viewport { padding: 24px; max-width: 100%; margin-left: 0; }
             .statement-section { padding: 100px 0; }
             .statement-text { font-size: 24px; line-height: 2; }
-
-            /* 数据对比模块变为垂直堆叠 */
             .scale-section { padding: 80px 0; }
             .scale-grid { grid-template-columns: 1fr; gap: 48px; }
-            .scale-num { margin-bottom: 12px; }
             .scale-title { font-size: 30px; }
 
-            /* 核心框架部分：隐藏左侧导航，右侧占满 */
             .journey-layout { flex-direction: column; gap: 0; padding-top: 80px; }
-            .sidebar-nav { display: none; } /* 手机端隐藏复杂的滚动锚点轴，保持极简阅读流 */
+            .sidebar-nav { display: none; }
             .journey-header { margin-bottom: 40px; }
             .journey-statement { font-size: 28px; }
 
-            /* 每一个章节变成单栏堆叠 */
             .journey-section { grid-template-columns: 1fr; gap: 32px; padding: 60px 0; }
             .section-title { font-size: 24px; margin-bottom: 12px; }
             .section-desc { font-size: 14px; }
-            .section-desc br { display: none; } /* 手机端取消人为换行 */
+            .section-desc br { display: none; }
 
-            /* 资产网络图自适应缩放 */
-            .network-svg-container { height: 180px; }
-            .network-svg-container svg { viewBox: 0 0 350 180; }
-
-            /* 底部收束大通栏 */
             .terminal-block { padding-bottom: 100px; }
             .terminal-line { height: 100px; }
             .terminal-title { font-size: 48px; }
-            .terminal-subtitle { font-size: 14px; margin-bottom: 24px; }
             .terminal-slogan { font-size: 16px; margin-bottom: 48px; }
             
-            /* 表单卡片防溢出 */
-            .terminal-card-box { padding: 40px 24px; border-radius: 12px; }
-            .card-main-title { font-size: 22px; }
-            .card-sub-desc { font-size: 13px; margin-bottom: 28px; }
+            .terminal-card-box { padding: 48px 24px; border-radius: 12px; }
+            .card-main-title { font-size: 24px; }
+            .card-secondary-title { font-size: 18px; margin-bottom: 16px; }
+            .card-sub-desc { font-size: 14px; margin-bottom: 28px; }
 
-            /* 页脚 */
-            footer { padding: 60px 0; }
-            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 24px; }
-            .footer-left { align-items: center; }
-            .footer-right { text-align: center; }
+            footer { padding: 80px 0 40px 0; }
+            .footer-container { flex-direction: column; align-items: center; gap: 20px; text-align: center; }
+            .footer-left-group { flex-direction: column; gap: 8px; }
+            .footer-divider { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation -->
     <nav>
         <div class="container nav-container">
             <div class="logo-area">
@@ -301,36 +371,40 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
-        <div class="container hero-grid">
-            <div>
-                <h1 class="hero-title">让每一段关系，<br>都不被遗忘。</h1>
-                <p class="hero-desc">客户越来越多，关系越来越难经营。<br><br>回客，Relationship OS。</p>
-                <a href="#apply-box" class="btn btn-primary">申请首批体验官</a>
-            </div>
-            <div>
-                <div class="ui-viewport">
-                    <div class="action-card">
-                        <div class="action-header">
-                            <span class="action-name">王雪梅</span>
-                            <span class="action-status">72天没来了</span>
-                        </div>
-                        <div class="action-body">过去一年她曾到店 14 次，是时候发条换季关怀关心一下她了。</div>
-                        <div class="action-footer">
-                            <button class="action-btn" onclick="document.getElementById('apply-box').scrollIntoView({behavior: 'smooth'});">发微信问候</button>
-                        </div>
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <h1 class="hero-title">让每一段关系，<br>都不被遗忘。</h1>
+                    <div class="hero-value">从认识客户，<br>到客户推荐客户。</div>
+                    <div class="hero-desc-group">
+                        <span class="hero-brand-highlight">回客</span>
+                        <div class="hero-desc-text">帮助你经营每一段关系。</div>
                     </div>
-                    <div class="memo-note">
-                        <div class="memo-title">记忆备忘</div>
-                        对皮肤痛感极度敏感，喜安静。提过下个月要和家人带孩子去马来西亚槟城度假，咖啡习惯去冰。
+                    <button class="btn-hero-capture" onclick="document.getElementById('apply-box').scrollIntoView({behavior: 'smooth'});">申请首批体验官</button>
+                </div>
+                <div>
+                    <div class="ui-viewport">
+                        <div class="action-card">
+                            <div class="action-header">
+                                <span class="action-name">王雪梅</span>
+                                <span class="action-status">72天没来了</span>
+                            </div>
+                            <div class="action-body">过去一年她曾到店 14 次，是时候发条换季关怀关心一下她了。</div>
+                            <div class="action-footer">
+                                <button class="action-btn" onclick="document.getElementById('apply-box').scrollIntoView({behavior: 'smooth'});">发微信问候</button>
+                            </div>
+                        </div>
+                        <div class="memo-note">
+                            <div class="memo-title">记忆备忘</div>
+                            对皮肤痛感极度敏感，喜安静。提过下个月要和家人带孩子去马来西亚槟城度假，咖啡习惯去冰。
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Assertion Statement Panel -->
     <section class="statement-section">
         <div class="container">
             <p class="statement-text">很多时候离开的
@@ -339,7 +413,6 @@
         </div>
     </section>
 
-    <!-- Scale Section -->
     <section class="scale-section">
         <div class="container scale-grid">
             <div class="scale-card">
@@ -360,9 +433,7 @@
         </div>
     </section>
 
-    <!-- Relationship Journey Framework -->
     <div class="container journey-layout">
-        <!-- Sidebar Tracker -->
         <div class="sidebar-nav">
             <div class="timeline-indicator">
                 <div class="timeline-item"><div class="timeline-dot"></div><span class="timeline-label">连接</span></div>
@@ -373,13 +444,11 @@
             </div>
         </div>
 
-        <!-- Master Content Area -->
         <div class="journey-flow">
             <div class="journey-header">
                 <h2 class="journey-statement">每一段关系都有自己的旅程</h2>
             </div>
 
-            <!-- Chapter 01 -->
             <section id="section-0" class="journey-section">
                 <div>
                     <div class="section-meta">Chapter 01 : 连接</div>
@@ -395,7 +464,6 @@
                 </div>
             </section>
 
-            <!-- Chapter 02 -->
             <section id="section-1" class="journey-section">
                 <div>
                     <div class="section-meta">Chapter 02 : 了解</div>
@@ -411,7 +479,6 @@
                 </div>
             </section>
 
-            <!-- Chapter 03 -->
             <section id="section-2" class="journey-section">
                 <div>
                     <div class="section-meta">Chapter 03 : 陪伴</div>
@@ -436,7 +503,6 @@
                 </div>
             </section>
 
-            <!-- Chapter 04 -->
             <section id="section-3" class="journey-section">
                 <div>
                     <div class="section-meta">Chapter 04 : 常来往</div>
@@ -453,7 +519,6 @@
                 </div>
             </section>
 
-            <!-- Chapter 05 -->
             <section id="section-4" class="journey-section" style="border-bottom: none;">
                 <div>
                     <div class="section-meta">Chapter 05 : 增长</div>
@@ -531,43 +596,72 @@
         </div>
     </div>
 
-    <!-- 🛠️ 100% 物理全宽收束区块 -->
     <section class="terminal-block">
         <div class="terminal-line"></div>
         <div class="terminal-dot-center"></div>
         
         <h2 class="terminal-title">回客</h2>
-        <p class="terminal-subtitle">Relationship OS</p>
         <p class="terminal-slogan">让每一段关系都不被遗忘</p>
         
         <div id="apply-box" class="terminal-card-box">
-            <h3 class="card-main-title">申请成为回客首批体验官</h3>
-            <p class="card-sub-desc">加入回客内测，抢先体验更智能的关系经营方式</p>
+            <h3 class="card-main-title">如果客户关系是资产</h3>
+            <div class="card-secondary-title">那它不该只存在微信里</div>
+            <p class="card-sub-desc">
+                我们正在邀请首批共创伙伴<br>
+                一起建立关系资产系统
+            </p>
             <button class="card-btn" onclick="window.location.href='https://mcnmm7o8z4hq.feishu.cn/share/base/form/shrcn8dZjroLNPuxDJnOg8IjeIb'">立即申请</button>
         </div>
     </section>
 
-    <!-- Footer Area -->
     <footer>
-        <div class="container footer-grid">
-            <div class="footer-left">
-                <div class="logo-area">
-                    <span class="logo-text" style="font-size: 20px;">回客</span>
-                    <span class="logo-sub">Relationship OS</span>
-                </div>
+        <div class="container footer-container">
+            <div class="footer-left-group">
+                <span class="footer-brand">回客</span>
+                <div class="footer-divider"></div>
+                <div class="footer-slogan-single">让每一段关系 都不被遗忘</div>
             </div>
-            <div class="footer-right">
-                <div>© 2026 上海神工天降智能科技有限公司. All Rights Reserved.</div>
+            <div class="footer-right-copyright">
+                © 上海神工天降智能科技有限公司
             </div>
         </div>
     </footer>
 
     <script>
+        // 视口触发的打字机逻辑
+        const typewriterElement = document.querySelector('.journey-statement');
+        const textToType = "每一段关系都有自己的旅程";
+        
+        if (typewriterElement) {
+            typewriterElement.textContent = ""; 
+            let charIndex = 0;
+            function typeCharacter() {
+                if (charIndex < textToType.length) {
+                    typewriterElement.textContent += textToType.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeCharacter, 140);
+                } else {
+                    typewriterElement.classList.add('typing-done');
+                }
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        typeCharacter();
+                        observer.disconnect();
+                    }
+                });
+            }, { threshold: 0.6 });
+
+            observer.observe(typewriterElement);
+        }
+
+        // 侧边栏动态高亮逻辑
         const sections = document.querySelectorAll('[id^="section-"]');
         const timelineItems = document.querySelectorAll('.timeline-item');
 
         const updateTimeline = () => {
-            // 如果处于移动端（侧边栏隐藏状态），则不执行滚动高亮计算，节省性能
             if (window.innerWidth <= 768) return;
 
             let currentIndex = 0;
