@@ -42,18 +42,17 @@
         .btn-primary { background: var(--text-main); color: var(--bg); border: 1px solid var(--text-main); }
         .btn-primary:hover { background: #1f2937; border-color: #1f2937; }
 
-        /* Hero Section —— 彻底解决视觉左倾、留白过大、失衡问题 */
+        /* Hero Section */
         .hero { 
-            padding-top: 80px; /* 扣除导航栏高度 */
+            padding-top: 80px; 
             padding-bottom: 0; 
             min-height: 100vh; 
             display: flex; 
             flex-direction: column;
-            justify-content: center; /* 强行实现垂直绝对双居中 */
+            justify-content: center; 
             align-items: center;
         }
         
-        /* 关键修改：打破 1:1 分栏，左侧给予 1.15fr 空间向中线舒展，右侧 0.85fr 收紧，间距拉大至 64px 保证呼吸感 */
         .hero-grid { 
             display: grid; 
             grid-template-columns: 1.15fr 0.85fr; 
@@ -62,23 +61,21 @@
             width: 100%; 
         }
 
-        /* 给左侧文字内容区域精细添加右边距，让文本视觉边缘完美向中线靠拢，中和换行空白 */
         .hero-grid > div:first-child {
             padding-right: 24px;
         }
         
         .hero-title { font-family: 'Noto Serif SC', serif; font-size: 46px; line-height: 1.4; color: #0C111D; margin-bottom: 24px; font-weight: 700; letter-spacing: 0.02em; }
-        .hero-value { font-family: 'Inter', 'Helvetica Neue', sans-serif; font-size: 24px; line-height: 1.5; color: #374151; font-weight: 500; margin-bottom: 28px; letter-spacing: -0.01em; }
+        .hero-value { font-size: 16px; font-weight: 500; color: var(--text-muted); margin-bottom: 40px; line-height: 1.8; letter-spacing: 0.05em; }
         
         .hero-desc-group { margin-bottom: 40px; font-family: 'Noto Serif SC', serif; }
         .hero-brand-highlight { font-size: 38px; font-weight: 700; color: #5334E9; display: block; margin-bottom: 8px; letter-spacing: 0.03em; }
         .hero-desc-text { font-size: 26px; font-weight: 600; color: #5334E9; line-height: 1.4; letter-spacing: 0.01em; }
         
-        /* 加宽按钮 Padding 增加左下角“视觉压舱石”，对冲右侧图形重量 */
         .btn-hero-capture { background: #0F1322; color: #FFFFFF; padding: 14px 44px; border-radius: 8px; font-size: 15px; font-weight: 500; border: none; letter-spacing: 0.05em; cursor: pointer; transition: background 0.2s; }
         .btn-hero-capture:hover { background: #1D243D; }
 
-        /* App UI Mockups —— 限制最大宽度，改用轻量级投影，防止右侧过重把视觉拉偏 */
+        /* App UI Mockups */
         .ui-viewport { 
             background: #FFFFFF; 
             border: 1px solid var(--border); 
@@ -87,8 +84,8 @@
             padding: 36px; 
             position: relative;
             width: 100%;
-            max-width: 440px; /* 控制右侧图形体量 */
-            margin-left: auto; /* 配合 max-width 让图形往右贴边，给中间留出完美黄金间距 */
+            max-width: 440px; 
+            margin-left: auto; 
         }
         .ui-viewport::before {
             content: ''; position: absolute; -webkit-border-radius: 16px; border-radius: 16px; inset: -1px;
@@ -107,7 +104,7 @@
 
         /* Statement Screen */
         .statement-section { padding: 160px 0; background-color: var(--bg-light); text-align: center; }
-        .statement-text { font-size: 32px; line-height: 2.2; color: var(--text-main); font-weight: 500; white-space: pre-line; letter-spacing: 0.02em; }
+        .statement-text { font-size: 32px; line-height: 2.2; color: var(--text-main); font-weight: 500; letter-spacing: 0.02em; }
 
         /* Scale Section */
         .scale-section { padding: 140px 0; border-bottom: 1px solid var(--border); }
@@ -117,8 +114,71 @@
         .scale-title { font-size: 36px; color: var(--text-main); margin-bottom: 12px; font-weight: 600; }
         .scale-desc { font-size: 14px; color: var(--text-muted); }
 
-        /* Sidebar Sticky Navigation */
-        .journey-layout { display: flex; gap: 80px; position: relative; padding: 140px 0 0 0; }
+        /* 打字机标题包裹容器：确保在整个页面视口彻底居中 */
+        .journey-header-wrapper {
+            width: 100%;
+            padding-top: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .journey-header { 
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 32px;
+            text-align: center; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .journey-statement-wrapper {
+            display: inline-grid;
+            grid-template-columns: 1fr;
+            align-items: center;
+            justify-items: center;
+            position: relative;
+        }
+
+        .journey-statement { 
+            grid-area: 1 / 1 / 2 / 2;
+            font-size: 36px; 
+            line-height: 1.4; 
+            color: var(--text-main); 
+            font-weight: 600; 
+            text-align: center;
+            white-space: nowrap;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .journey-statement-placeholder {
+            grid-area: 1 / 1 / 2 / 2;
+            font-size: 36px; 
+            line-height: 1.4; 
+            font-weight: 600; 
+            white-space: nowrap;
+            visibility: hidden;
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .journey-statement::after { 
+            content: '|'; 
+            position: absolute; 
+            right: -16px; 
+            top: -2px;
+            color: var(--primary); 
+            animation: blink 0.7s infinite; 
+            font-weight: 400; 
+        }
+        .journey-statement.typing-done::after { display: none; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* Sidebar Sticky Navigation Layout */
+        .journey-layout { display: flex; gap: 80px; position: relative; padding: 40px 0 0 0; }
         .sidebar-nav { width: 180px; position: sticky; top: 180px; height: fit-content; flex-shrink: 0; z-index: 10; }
         .timeline-indicator { display: flex; flex-direction: column; gap: 0; position: relative; }
         .timeline-indicator::before { content: ''; position: absolute; left: 7px; top: 10px; bottom: 10px; width: 1px; background-color: var(--border); z-index: 1; }
@@ -131,14 +191,8 @@
         .timeline-item.passed .timeline-dot { background-color: var(--text-main); border-color: var(--text-main); }
         .timeline-item.passed .timeline-label { color: var(--text-main); }
 
-        .journey-flow { flex-grow: 1; display: flex; flex-direction: column; }
-        .journey-header { text-align: center; margin-bottom: 80px; min-height: 50px; }
-        .journey-statement { font-size: 36px; line-height: 1.4; color: var(--text-main); font-weight: 600; position: relative; display: inline-block; }
+        .journey-flow { flex-grow: 1; display: flex; flex-direction: column; min-width: 0; }
         
-        .journey-statement::after { content: '|'; position: absolute; right: -12px; color: var(--primary); animation: blink 0.7s infinite; font-weight: 400; }
-        .journey-statement.typing-done::after { display: none; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
         .journey-section { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; padding: 100px 0; border-bottom: 1px solid rgba(229, 231, 235, 0.4); }
         .section-meta { font-size: 12px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
         .section-title { font-size: 32px; color: var(--text-main); margin-bottom: 18px; font-weight: 600; }
@@ -161,7 +215,7 @@
             border: 1px solid rgba(229, 231, 235, 0.6);
         }
 
-        /* 100% 全宽收束大通栏 */
+        /* Terminal Footer Block */
         .terminal-block {
             width: 100%;
             border-top: 1px solid rgba(229, 231, 235, 0.6);
@@ -264,7 +318,7 @@
         }
         .card-btn:hover { background: #1f2937; }
 
-        /* Footer 区域 */
+        /* Footer */
         footer { 
             padding: 140px 0 60px 0; 
             border-top: 1px solid rgba(229, 231, 235, 0.6); 
@@ -308,7 +362,7 @@
             letter-spacing: 0.02em;
         }
 
-        /* 移动端响应式适配 */
+        /* Responsive Design */
         @media (max-width: 768px) {
             .container { padding: 0 20px; }
             nav { height: 70px; }
@@ -330,10 +384,12 @@
             .scale-grid { grid-template-columns: 1fr; gap: 48px; }
             .scale-title { font-size: 30px; }
 
-            .journey-layout { flex-direction: column; gap: 0; padding-top: 80px; }
+            .journey-header-wrapper { padding-top: 80px; }
+            .journey-header { padding: 0 20px; }
+            .journey-statement, .journey-statement-placeholder { font-size: 28px; }
+
+            .journey-layout { flex-direction: column; gap: 0; padding-top: 20px; }
             .sidebar-nav { display: none; }
-            .journey-header { margin-bottom: 40px; }
-            .journey-statement { font-size: 28px; }
 
             .journey-section { grid-template-columns: 1fr; gap: 32px; padding: 60px 0; }
             .section-title { font-size: 24px; margin-bottom: 12px; }
@@ -371,6 +427,7 @@
         </div>
     </nav>
 
+    <!-- 首屏部分已完全按照要求恢复 -->
     <section class="hero">
         <div class="container">
             <div class="hero-grid">
@@ -407,9 +464,7 @@
 
     <section class="statement-section">
         <div class="container">
-            <p class="statement-text">很多时候离开的
-            不是客户
-            而是连接</p>
+            <p class="statement-text">很多时候离开的<br>不是客户<br>而是连接</p>
         </div>
     </section>
 
@@ -433,6 +488,16 @@
         </div>
     </section>
 
+    <!-- 打字机部分独立布局，避开侧边栏实现全局绝对居中 -->
+    <div class="journey-header-wrapper">
+        <div class="journey-header">
+            <div class="journey-statement-wrapper">
+                <h2 class="journey-statement">每一段关系都有自己的旅程</h2>
+                <div class="journey-statement-placeholder">每一段关系都有自己的旅程</div>
+            </div>
+        </div>
+    </div>
+
     <div class="container journey-layout">
         <div class="sidebar-nav">
             <div class="timeline-indicator">
@@ -445,10 +510,6 @@
         </div>
 
         <div class="journey-flow">
-            <div class="journey-header">
-                <h2 class="journey-statement">每一段关系都有自己的旅程</h2>
-            </div>
-
             <section id="section-0" class="journey-section">
                 <div>
                     <div class="section-meta">Chapter 01 : 连接</div>
@@ -549,11 +610,9 @@
                                     </linearGradient>
                                 </defs>
                                 <path d="M 175 105 C 130 105, 90 65, 60 45" fill="none" stroke="url(#radial-link)" stroke-width="1.5" />
-                                <path d="M 175 105 C 130 105, 95 145, 65 155" fill="none" stroke="url(#radial-link)" stroke-width="1.5" />
                                 <path d="M 175 105 C 175 80, 175 60, 175 38" fill="none" stroke="url(#radial-link)" stroke-width="1.5" />
                                 <path d="M 175 105 C 175 130, 175 150, 175 172" fill="none" stroke="url(#radial-link)" stroke-width="1.5" />
                                 <path d="M 175 105 C 220 105, 260 65, 290 45" fill="none" stroke="url(#radial-link)" stroke-width="1.5" />
-                                <path d="M 175 105 C 220 105, 255 145, 285 155" fill="none" stroke="url(#radial-link)" stroke-width="1.5" />
                             </svg>
 
                             <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; z-index: 10;">
@@ -569,10 +628,6 @@
                                 <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(109, 74, 255, 0.05); display: flex; align-items: center; justify-content: center; margin-right: 4px;"><span style="font-size: 9px; font-weight: 600; color: var(--primary);">李</span></div>
                                 <span style="font-size: 10px; font-weight: 500; color: var(--text-main);">李女士</span>
                             </div>
-                            <div style="position: absolute; left: 20px; top: 150px; display: flex; align-items: center; background: #FFFFFF; border: 1px solid rgba(109, 74, 255, 0.4); padding: 4px 10px 4px 6px; border-radius: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); z-index: 5;">
-                                <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(109, 74, 255, 0.05); display: flex; align-items: center; justify-content: center; margin-right: 4px;"><span style="font-size: 9px; font-weight: 600; color: var(--primary);">张</span></div>
-                                <span style="font-size: 10px; font-weight: 500; color: var(--text-main);">张丽华</span>
-                            </div>
                             <div style="position: absolute; left: 40%; top: 12px; transform: translateX(-50%); display: flex; align-items: center; background: #FFFFFF; border: 1px solid rgba(109, 74, 255, 0.4); padding: 4px 10px 4px 6px; border-radius: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); z-index: 5;">
                                 <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(109, 74, 255, 0.05); display: flex; align-items: center; justify-content: center; margin-right: 4px;"><span style="font-size: 9px; font-weight: 600; color: var(--primary);">陈</span></div>
                                 <span style="font-size: 10px; font-weight: 500; color: var(--text-main);">陈雪曼</span>
@@ -584,10 +639,6 @@
                             <div style="position: absolute; right: 15px; top: 20px; display: flex; align-items: center; background: #FFFFFF; border: 1px solid rgba(109, 74, 255, 0.4); padding: 4px 10px 4px 6px; border-radius: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); z-index: 5;">
                                 <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(109, 74, 255, 0.05); display: flex; align-items: center; justify-content: center; margin-right: 4px;"><span style="font-size: 9px; font-weight: 600; color: var(--primary);">孙</span></div>
                                 <span style="font-size: 10px; font-weight: 500; color: var(--text-main);">孙佳怡</span>
-                            </div>
-                            <div style="position: absolute; right: 20px; top: 150px; display: flex; align-items: center; background: #FFFFFF; border: 1px solid rgba(109, 74, 255, 0.4); padding: 4px 10px 4px 6px; border-radius: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); z-index: 5;">
-                                <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(109, 74, 255, 0.05); display: flex; align-items: center; justify-content: center; margin-right: 4px;"><span style="font-size: 9px; font-weight: 600; color: var(--primary);">赵</span></div>
-                                <span style="font-size: 10px; font-weight: 500; color: var(--text-main);">赵雨婷</span>
                             </div>
                         </div>
                     </div>
@@ -628,7 +679,7 @@
     </footer>
 
     <script>
-        // 视口触发的打字机逻辑
+        // Typewriter Effect
         const typewriterElement = document.querySelector('.journey-statement');
         const textToType = "每一段关系都有自己的旅程";
         
@@ -657,7 +708,7 @@
             observer.observe(typewriterElement);
         }
 
-        // 侧边栏动态高亮逻辑
+        // Sidebar Navigation Highlight
         const sections = document.querySelectorAll('[id^="section-"]');
         const timelineItems = document.querySelectorAll('.timeline-item');
 
