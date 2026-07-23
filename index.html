@@ -38,6 +38,18 @@
         .nav-link:hover { color: var(--text-main); }
         .nav-link.active { color: var(--primary); font-weight: 600; }
 
+        /* 汉堡菜单 */
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+        .hamburger span { display: block; width: 22px; height: 2px; background: var(--text-main); border-radius: 2px; transition: all 0.3s; }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .mobile-menu { display: none; position: fixed; top: 80px; left: 0; right: 0; background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 16px 24px 24px; z-index: 99; flex-direction: column; }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu-link { font-size: 16px; font-weight: 500; color: var(--text-muted); text-decoration: none; padding: 14px 0; border-bottom: 1px solid var(--border); display: block; }
+        .mobile-menu-link:last-child { border-bottom: none; }
+        .mobile-menu-link.active { color: var(--primary); font-weight: 600; }
+
         .btn {
             display: inline-flex; align-items: center; justify-content: center;
             padding: 12px 28px; border-radius: 6px; font-size: 14px; font-weight: 500;
@@ -373,6 +385,7 @@
             .logo-text { font-size: 18px; }
             .logo-sub { font-size: 9px; }
             .nav-links { display: none; }
+            .hamburger { display: flex; }
 
             .hero { padding-top: 100px; min-height: auto; }
             .hero-grid { grid-template-columns: 1fr; gap: 32px; text-align: left; }
@@ -431,9 +444,18 @@
                 <a href="/how-it-works.html" class="nav-link">工作方式</a>
                 <a href="/partner.html" class="nav-link">创始伙伴</a>
             </div>
-            <a href="#apply-box" class="btn btn-primary">申请首批体验官</a>
+            <a href="#apply-box" class="btn btn-primary" id="nav-cta">申请首批体验官</a>
+            <button class="hamburger" id="hamburger" aria-label="菜单">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="/" class="mobile-menu-link active">首页</a>
+        <a href="/how-it-works.html" class="mobile-menu-link">工作方式</a>
+        <a href="/partner.html" class="mobile-menu-link">创始伙伴</a>
+    </div>
 
     <!-- 首屏部分已完全按照要求恢复 -->
     <section class="hero">
@@ -607,46 +629,48 @@
                             </div>
                         </div>
                         
-                        <div class="network-svg-container">
-                            <div style="position: absolute; inset: 0; background-size: 16px 16px; background-image: linear-gradient(to right, rgba(0,0,0,0.01) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.01) 1px, transparent 1px); pointer-events: none;"></div>
-                            
-                            <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" viewBox="0 0 350 210" preserveAspectRatio="xMidYMid slice">
-                                <defs>
-                                    <linearGradient id="radial-link" x1="0" y1="0" x2="1" y2="1">
-                                        <stop offset="0%" stop-color="#6D4AFF" stop-opacity="0.5"/>
-                                        <stop offset="100%" stop-color="#6D4AFF" stop-opacity="0.1"/>
-                                    </linearGradient>
-                                </defs>
-                                <path d="M 175 105 C 130 105, 90 65, 60 45" fill="none" stroke="url(#radial-link)" stroke-width="1.5" />
-                                <path d="M 175 105 C 175 80, 175 60, 175 38" fill="none" stroke="url(#radial-link)" stroke-width="1.5" />
-                                <path d="M 175 105 C 175 130, 175 150, 175 172" fill="none" stroke="url(#radial-link)" stroke-width="1.5" />
-                                <path d="M 175 105 C 220 105, 260 65, 290 45" fill="none" stroke="url(#radial-link)" stroke-width="1.5" />
-                            </svg>
+                        <div class="network-svg-container" id="net-box" style="height: 240px;">
+                            <div style="position: absolute; inset: 0; background-size: 16px 16px; background-image: linear-gradient(to right, rgba(0,0,0,0.01) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.01) 1px, transparent 1px); pointer-events: none; border-radius: 6px;"></div>
+                            <svg id="net-svg" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; z-index: 1;"></svg>
 
-                            <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; z-index: 10;">
-                                <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(109, 74, 255, 0.03); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(109, 74, 255, 0.1); border: 1px solid rgba(109, 74, 255, 0.15);">
-                                    <div style="width: 46px; height: 46px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(109, 74, 255, 0.25);">
-                                        <span style="color: #FFFFFF; font-size: 15px; font-weight: 700; font-family: 'Noto Serif SC', serif;">王</span>
+                            <!-- 中心节点：王雪梅 (50%, 50%) -->
+                            <div style="position: absolute; id="net-center" style="position:absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; z-index: 10;"">
+                                <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(109,74,255,0.06); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 24px rgba(109,74,255,0.15); border: 1px solid rgba(109,74,255,0.2);">
+                                    <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(109,74,255,0.3);">
+                                        <span style="color:#FFFFFF; font-size:16px; font-weight:700; font-family:'Noto Serif SC',serif;">王</span>
                                     </div>
                                 </div>
-                                <span style="font-size: 11px; font-weight: 600; color: var(--text-main); margin-top: 4px; background: #FFFFFF; padding: 1px 8px; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.04); white-space: nowrap;">王雪梅</span>
+                                <span style="font-size:11px; font-weight:600; color:var(--text-main); margin-top:5px; background:#FFFFFF; padding:2px 8px; border-radius:4px; box-shadow:0 2px 6px rgba(0,0,0,0.05); border:1px solid rgba(0,0,0,0.05); white-space:nowrap;">王雪梅</span>
                             </div>
 
-                            <div style="position: absolute; left: 15px; top: 20px; display: flex; align-items: center; background: #FFFFFF; border: 1px solid rgba(109, 74, 255, 0.4); padding: 4px 10px 4px 6px; border-radius: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); z-index: 5;">
-                                <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(109, 74, 255, 0.05); display: flex; align-items: center; justify-content: center; margin-right: 4px;"><span style="font-size: 9px; font-weight: 600; color: var(--primary);">李</span></div>
-                                <span style="font-size: 10px; font-weight: 500; color: var(--text-main);">李女士</span>
+                            <!-- 左上：李女士 → SVG(75,52) ≈ left:22%, top:22% -->
+                            <div id="net-n0" style="position:absolute; left:16px; top:36px; display:flex; align-items:center; background:#FFFFFF; border:1px solid rgba(109,74,255,0.35); padding:4px 10px 4px 6px; border-radius:20px; box-shadow:0 2px 8px rgba(0,0,0,0.04); z-index:5;">
+                                <div style="width:20px; height:20px; border-radius:50%; background:rgba(109,74,255,0.08); display:flex; align-items:center; justify-content:center; margin-right:5px; flex-shrink:0;"><span style="font-size:9px; font-weight:700; color:var(--primary);">李</span></div>
+                                <span style="font-size:10px; font-weight:500; color:var(--text-main); white-space:nowrap;">李女士</span>
                             </div>
-                            <div style="position: absolute; left: 40%; top: 12px; transform: translateX(-50%); display: flex; align-items: center; background: #FFFFFF; border: 1px solid rgba(109, 74, 255, 0.4); padding: 4px 10px 4px 6px; border-radius: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); z-index: 5;">
-                                <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(109, 74, 255, 0.05); display: flex; align-items: center; justify-content: center; margin-right: 4px;"><span style="font-size: 9px; font-weight: 600; color: var(--primary);">陈</span></div>
-                                <span style="font-size: 10px; font-weight: 500; color: var(--text-main);">陈雪曼</span>
+
+                            <!-- 上中：陈雪曼 → SVG(175,28) ≈ left:50%, top:12% -->
+                            <div id="net-n1" style="position:absolute; left:50%; top:10px; transform:translateX(-50%); display:flex; align-items:center; background:#FFFFFF; border:1px solid rgba(109,74,255,0.35); padding:4px 10px 4px 6px; border-radius:20px; box-shadow:0 2px 8px rgba(0,0,0,0.04); z-index:5;">
+                                <div style="width:20px; height:20px; border-radius:50%; background:rgba(109,74,255,0.08); display:flex; align-items:center; justify-content:center; margin-right:5px; flex-shrink:0;"><span style="font-size:9px; font-weight:700; color:var(--primary);">陈</span></div>
+                                <span style="font-size:10px; font-weight:500; color:var(--text-main); white-space:nowrap;">陈雪曼</span>
                             </div>
-                            <div style="position: absolute; left: 40%; top: 172px; transform: translateX(-50%); display: flex; align-items: center; background: #FFFFFF; border: 1px solid rgba(109, 74, 255, 0.4); padding: 4px 10px 4px 6px; border-radius: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); z-index: 5;">
-                                <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(109, 74, 255, 0.05); display: flex; align-items: center; justify-content: center; margin-right: 4px;"><span style="font-size: 9px; font-weight: 600; color: var(--primary);">周</span></div>
-                                <span style="font-size: 10px; font-weight: 500; color: var(--text-main);">周小美</span>
+
+                            <!-- 右上：孙佳怡 → SVG(275,52) ≈ right:16px, top:36px -->
+                            <div id="net-n2" style="position:absolute; right:16px; top:36px; display:flex; align-items:center; background:#FFFFFF; border:1px solid rgba(109,74,255,0.35); padding:4px 10px 4px 6px; border-radius:20px; box-shadow:0 2px 8px rgba(0,0,0,0.04); z-index:5;">
+                                <div style="width:20px; height:20px; border-radius:50%; background:rgba(109,74,255,0.08); display:flex; align-items:center; justify-content:center; margin-right:5px; flex-shrink:0;"><span style="font-size:9px; font-weight:700; color:var(--primary);">孙</span></div>
+                                <span style="font-size:10px; font-weight:500; color:var(--text-main); white-space:nowrap;">孙佳怡</span>
                             </div>
-                            <div style="position: absolute; right: 15px; top: 20px; display: flex; align-items: center; background: #FFFFFF; border: 1px solid rgba(109, 74, 255, 0.4); padding: 4px 10px 4px 6px; border-radius: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); z-index: 5;">
-                                <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(109, 74, 255, 0.05); display: flex; align-items: center; justify-content: center; margin-right: 4px;"><span style="font-size: 9px; font-weight: 600; color: var(--primary);">孙</span></div>
-                                <span style="font-size: 10px; font-weight: 500; color: var(--text-main);">孙佳怡</span>
+
+                            <!-- 左下：周小美 → SVG(75,195) ≈ left:16px, bottom:28px -->
+                            <div id="net-n3" style="position:absolute; left:16px; bottom:28px; display:flex; align-items:center; background:#FFFFFF; border:1px solid rgba(109,74,255,0.35); padding:4px 10px 4px 6px; border-radius:20px; box-shadow:0 2px 8px rgba(0,0,0,0.04); z-index:5;">
+                                <div style="width:20px; height:20px; border-radius:50%; background:rgba(109,74,255,0.08); display:flex; align-items:center; justify-content:center; margin-right:5px; flex-shrink:0;"><span style="font-size:9px; font-weight:700; color:var(--primary);">周</span></div>
+                                <span style="font-size:10px; font-weight:500; color:var(--text-main); white-space:nowrap;">周小美</span>
+                            </div>
+
+                            <!-- 右下：陈佳琪 → SVG(275,195) ≈ right:16px, bottom:28px -->
+                            <div id="net-n4" style="position:absolute; right:16px; bottom:28px; display:flex; align-items:center; background:#FFFFFF; border:1px solid rgba(109,74,255,0.35); padding:4px 10px 4px 6px; border-radius:20px; box-shadow:0 2px 8px rgba(0,0,0,0.04); z-index:5;">
+                                <div style="width:20px; height:20px; border-radius:50%; background:rgba(109,74,255,0.08); display:flex; align-items:center; justify-content:center; margin-right:5px; flex-shrink:0;"><span style="font-size:9px; font-weight:700; color:var(--primary);">陈</span></div>
+                                <span style="font-size:10px; font-weight:500; color:var(--text-main); white-space:nowrap;">陈佳琪</span>
                             </div>
                         </div>
                     </div>
@@ -695,6 +719,39 @@
     </footer>
 
     <script>
+        // 动态绘制关系网络连线
+        function drawNetworkLines() {
+            const box = document.getElementById('net-box');
+            const svg = document.getElementById('net-svg');
+            const center = document.getElementById('net-center');
+            if (!box || !svg || !center) return;
+
+            const nodeIds = ['net-n0','net-n1','net-n2','net-n3','net-n4'];
+            const boxRect = box.getBoundingClientRect();
+            const centerRect = center.getBoundingClientRect();
+            const cx = centerRect.left + centerRect.width / 2 - boxRect.left;
+            const cy = centerRect.top + centerRect.height / 2 - boxRect.top;
+
+            svg.innerHTML = '';
+            nodeIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const r = el.getBoundingClientRect();
+                const nx = r.left + r.width / 2 - boxRect.left;
+                const ny = r.top + r.height / 2 - boxRect.top;
+                const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+                line.setAttribute('x1', cx);
+                line.setAttribute('y1', cy);
+                line.setAttribute('x2', nx);
+                line.setAttribute('y2', ny);
+                line.setAttribute('stroke', 'rgba(109,74,255,0.4)');
+                line.setAttribute('stroke-width', '1.5');
+                svg.appendChild(line);
+            });
+        }
+        window.addEventListener('load', drawNetworkLines);
+        window.addEventListener('resize', drawNetworkLines);
+
         // Typewriter Effect
         const typewriterElement = document.querySelector('.journey-statement');
         const textToType = "每一段关系都有自己的旅程";
@@ -753,6 +810,27 @@
                 sections[index].scrollIntoView({ behavior: 'smooth' });
             });
         });
+
+        // 移动端隐藏申请按钮
+        if (window.innerWidth <= 768) {
+            const cta = document.getElementById('nav-cta');
+            if (cta) cta.style.display = 'none';
+        }
+        // 汉堡菜单
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (hamburger && mobileMenu) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('open');
+                mobileMenu.classList.toggle('open');
+            });
+            mobileMenu.querySelectorAll('.mobile-menu-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('open');
+                    mobileMenu.classList.remove('open');
+                });
+            });
+        }
     </script>
 </body>
 </html>
