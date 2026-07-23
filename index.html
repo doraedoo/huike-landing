@@ -30,9 +30,13 @@
             border-bottom: 1px solid rgba(229, 231, 235, 0.5); z-index: 100;
         }
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
-        .logo-area { display: flex; flex-direction: column; }
+        .logo-area { display: flex; flex-direction: column; text-decoration: none; }
         .logo-text { font-size: 22px; font-weight: 700; color: var(--text-main); line-height: 1; }
         .logo-sub { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; font-family: 'Inter', sans-serif; font-weight: 500; }
+        .nav-links { display: flex; align-items: center; gap: 36px; }
+        .nav-link { font-size: 14px; font-weight: 500; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .nav-link:hover { color: var(--text-main); }
+        .nav-link.active { color: var(--primary); font-weight: 600; }
 
         .btn {
             display: inline-flex; align-items: center; justify-content: center;
@@ -368,6 +372,7 @@
             nav { height: 70px; }
             .logo-text { font-size: 18px; }
             .logo-sub { font-size: 9px; }
+            .nav-links { display: none; }
 
             .hero { padding-top: 100px; min-height: auto; }
             .hero-grid { grid-template-columns: 1fr; gap: 32px; text-align: left; }
@@ -417,13 +422,16 @@
 
     <nav>
         <div class="container nav-container">
-            <div class="logo-area">
+            <a href="/" class="logo-area">
                 <span class="logo-text">回客</span>
                 <span class="logo-sub">Relationship OS</span>
-            </div>
-            <div>
-                <a href="#apply-box" class="btn btn-primary">申请首批体验官</a>
-            </div>
+            </a>
+            <nav class="nav-links">
+                <a href="/" class="nav-link active">首页</a>
+                <a href="/how-it-works.html" class="nav-link">工作方式</a>
+                <a href="/partner.html" class="nav-link">创始伙伴</a>
+            </nav>
+            <a href="#apply-box" class="btn btn-primary">申请首批体验官</a>
         </div>
     </nav>
 
